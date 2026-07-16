@@ -1,0 +1,5 @@
+# Project Rules & Custom Behaviors
+
+- **[README Style]**: Tài liệu `README.md` viết bằng tiếng Việt: ngắn gọn, đơn giản, dễ đọc, không dùng biểu tượng cảm xúc (emoji/icon), không dùng xưng hô "bạn"/"tôi". Luôn cập nhật đồng bộ với cấu trúc và tính năng mới nhất của codebase.
+- **[Git Automation]**: Ưu tiên sử dụng SSH thay vì HTTPS khi push code từ terminal của agent để tránh bước nhập tài khoản mật khẩu.
+- **[Neovim Bootstrap]**: Luôn tích hợp bootstrap lazy.nvim để tự động tải plugin cần thiết nếu máy chạy Neovim chưa có sẵn.
