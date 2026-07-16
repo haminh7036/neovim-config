@@ -22,6 +22,33 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Plugin cung cấp module 'base16-colorscheme' cho matugen.lua
   { "RRethy/nvim-base16" },
+
+  -- Plugin duyệt cây thư mục (File Explorer)
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup({
+        sort = {
+          sorter = "case_sensitive",
+        },
+        view = {
+          width = 30,
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          dotfiles = false,
+        },
+      })
+
+      -- Cấu hình phím tắt Leader + e để tắt/mở cây thư mục
+      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true, desc = "Toggle File Explorer" })
+    end,
+  },
 })
 
 -- Clipboard
