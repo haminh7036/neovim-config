@@ -10,3 +10,6 @@ vim.opt.relativenumber = true
 
 -- Highlight Current Line
 vim.opt.cursorline = true
+
+-- Matugen Color Scheme Configuration
+require("matugen").setup()
