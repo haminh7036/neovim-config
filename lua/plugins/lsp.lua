@@ -1,0 +1,54 @@
+return {
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "Saghen/blink.cmp",
+    },
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("mason").setup()
+      
+      -- Setup servers here.
+      -- mason-lspconfig will auto install them.
+      local servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = { globals = { "vim" } },
+            },
+          },
+        },
+        -- Put other LSP server configurations here
+      }
+
+      local mason_lspconfig = require("mason-lspconfig")
+      mason_lspconfig.setup({
+        ensure_installed = vim.tbl_keys(servers),
+      })
+
+      -- Get capabilities from blink.cmp
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+      mason_lspconfig.setup_handlers({
+        function(server_name)
+          local server_opts = servers[server_name] or {}
+          server_opts.capabilities = capabilities
+          require("lspconfig")[server_name].setup(server_opts)
+        end,
+      })
+
+      -- Global LSP Keymaps
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to Definition" })
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to Declaration" })
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to Implementation" })
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "LSP: Show References" })
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation" })
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename Symbol" })
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code Action" })
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "LSP: Go to Prev Diagnostic" })
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "LSP: Go to Next Diagnostic" })
+    end,
+  }
+}
