@@ -93,7 +93,7 @@ return {
       })
 
       -- Cấu hình phím tắt Leader + e để tắt/mở cây thư mục
-      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true, desc = "Toggle File Explorer" })
+      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true, desc = "Toggle Explorer" })
     end,
   },
 }

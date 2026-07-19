@@ -34,10 +34,11 @@ return {
         end, { expr = true, desc = "Prev Git Hunk" })
 
         -- Actions
-        map("n", "<leader>hs", gs.stage_hunk, { desc = "Stage Git Hunk" })
-        map("n", "<leader>hr", gs.reset_hunk, { desc = "Reset Git Hunk" })
-        map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview Git Hunk" })
-        map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, { desc = "Blame Line (Full)" })
+        map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage Hunk" })
+        map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset Hunk" })
+        map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview Hunk" })
+        map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, { desc = "Blame Line" })
+        map("n", "<leader>gd", gs.diffthis, { desc = "Diff File" })
       end,
     },
   }

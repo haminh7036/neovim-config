@@ -16,11 +16,18 @@ return {
       })
 
       -- Keymaps
-      vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "FZF: Find Files" })
-      vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "FZF: Live Grep (Search Text)" })
-      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "FZF: Find Buffers" })
-      vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "FZF: Help Tags" })
-      vim.keymap.set("n", "<leader>fs", fzf.lsp_document_symbols, { desc = "FZF: Document Symbols" })
+      -- Nhóm <leader>f: Find
+      vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Recent Files" })
+      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Buffers" })
+
+      -- Nhóm <leader>s: Search
+      vim.keymap.set("n", "<leader>sg", fzf.live_grep, { desc = "Live Grep" })
+      vim.keymap.set("n", "<leader>sw", fzf.grep_cword, { desc = "Grep Word Under Cursor" })
+      vim.keymap.set("n", "<leader>sb", fzf.buffers, { desc = "Search Buffers" })
+      vim.keymap.set("n", "<leader>ss", fzf.lsp_document_symbols, { desc = "Document Symbols" })
+      vim.keymap.set("n", "<leader>sh", fzf.help_tags, { desc = "Help Tags" })
+      vim.keymap.set("n", "<leader>sk", fzf.keymaps, { desc = "Keymaps" })
     end,
   }
 }

@@ -12,7 +12,20 @@ vim.keymap.set("n", "<C-Down>", "<C-w>j", { desc = "Go to Lower Window" })
 vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = "Go to Upper Window" })
 vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Go to Right Window" })
 
--- Quản lý Buffer (Tab)
--- Đóng buffer hiện tại mà không làm hỏng bố cục cửa sổ split (Window splits)
-vim.keymap.set("n", "<leader>x", "<Cmd>bp|bd #<CR>", { desc = "Close Current Buffer" })
-vim.keymap.set("n", "<leader>bd", "<Cmd>bp|bd #<CR>", { desc = "Delete Buffer" })
+-- Quản lý Buffer
+vim.keymap.set("n", "<leader>bd", "<Cmd>bp|bd #<CR>", { desc = "Close Buffer" })
+vim.keymap.set("n", "<leader>bo", function()
+  local current = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+end, { desc = "Close Other Buffers" })
+
+-- Save File
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
+
+-- Nhảy tới/lùi lịch sử con trỏ (VSCode style)
+vim.keymap.set("n", "<A-Left>", "<C-o>", { desc = "Go Back" })
+vim.keymap.set("n", "<A-Right>", "<C-i>", { desc = "Go Forward" })

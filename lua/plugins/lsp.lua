@@ -40,15 +40,15 @@ return {
       })
 
       -- Global LSP Keymaps
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to Definition" })
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to Declaration" })
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "LSP: Go to Implementation" })
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "LSP: Show References" })
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover Documentation" })
-      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Rename Symbol" })
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code Action" })
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "LSP: Go to Prev Diagnostic" })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "LSP: Go to Next Diagnostic" })
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+      vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
     end,
   }
 }
