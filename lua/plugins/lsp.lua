@@ -22,6 +22,10 @@ return {
       "Saghen/blink.cmp",
     },
     event = { "BufReadPre", "BufNewFile" },
+    cmd = { "LspInfo", "LspStart", "LspStop", "LspRestart" },
+    keys = {
+      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+    },
     config = function()
       
       -- Setup servers here.
