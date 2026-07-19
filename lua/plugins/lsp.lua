@@ -1,14 +1,28 @@
 return {
+  -- Mason Package Manager
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    opts = {
+      ui = {
+        border = "rounded",
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup(opts)
+    end,
+  },
+
+  -- LSP Configuration
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "Saghen/blink.cmp",
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      require("mason").setup()
       
       -- Setup servers here.
       -- mason-lspconfig will auto install them.
