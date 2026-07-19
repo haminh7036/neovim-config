@@ -16,6 +16,10 @@ return {
       })
 
       -- Keymaps
+      -- Quick shortcuts (LazyVim style)
+      vim.keymap.set("n", "<leader><space>", fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>/", fzf.live_grep, { desc = "Grep (Root Dir)" })
+
       -- Nhóm <leader>f: Find
       vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Recent Files" })
