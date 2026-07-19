@@ -65,7 +65,8 @@ return {
 
       for server_name, server_opts in pairs(all_servers) do
         server_opts.capabilities = capabilities
-        lspconfig[server_name].setup(server_opts)
+        vim.lsp.config(server_name, server_opts)
+        vim.lsp.enable(server_name)
       end
 
       -- Global LSP Keymaps
