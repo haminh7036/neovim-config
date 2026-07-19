@@ -50,13 +50,23 @@ return {
       -- Get capabilities from blink.cmp
       local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local server_opts = servers[server_name] or {}
-          server_opts.capabilities = capabilities
-          require("lspconfig")[server_name].setup(server_opts)
-        end,
-      })
+      -- Setup servers manually to avoid deprecated setup_handlers API in newer mason-lspconfig
+      local lspconfig = require("lspconfig")
+      local installed_servers = mason_lspconfig.get_installed_servers()
+
+      -- Merge installed servers and our configured servers list
+      local all_servers = {}
+      for _, server in ipairs(installed_servers) do
+        all_servers[server] = servers[server] or {}
+      end
+      for server_name, server_opts in pairs(servers) do
+        all_servers[server_name] = server_opts
+      end
+
+      for server_name, server_opts in pairs(all_servers) do
+        server_opts.capabilities = capabilities
+        lspconfig[server_name].setup(server_opts)
+      end
 
       -- Global LSP Keymaps
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
