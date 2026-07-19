@@ -16,20 +16,6 @@ return {
 				end
 				return true
 			end,
-			-- Cấu hình hiển thị ở góc dưới bên phải và nhỏ gọn
-			win = {
-				no_overlap = true,
-				width = 0.20, -- Chiều rộng 20% màn hình
-				height = { min = 5, max = 30 }, -- Chiều cao từ 5 đến 30 dòng
-				col = -1, -- Neo sát lề phải màn hình
-				row = -1, -- Neo sát lề dưới màn hình
-				border = "rounded", -- Viền bo tròn tinh tế
-				padding = { 1, 1 }, -- Padding bên trong nhỏ gọn
-			},
-			layout = {
-				width = { min = 50 }, -- Ép 1 cột dọc duy nhất
-				spacing = 3,
-			},
 		},
 		config = function(_, opts)
 			local wk = require("which-key")
@@ -41,6 +27,7 @@ return {
 				{ "<leader>c", group = "Code" },
 				{ "<leader>f", group = "Find" },
 				{ "<leader>g", group = "Git" },
+				{ "<leader>q", group = "Session/Quit" },
 				{ "<leader>s", group = "Search" },
 			})
 

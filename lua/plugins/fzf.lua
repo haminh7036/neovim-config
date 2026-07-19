@@ -21,6 +21,9 @@ return {
       vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Recent Files" })
       vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Buffers" })
 
+      -- Nhóm <leader>b: Buffer
+      vim.keymap.set("n", "<leader>bb", fzf.buffers, { desc = "Switch Buffer" })
+
       -- Nhóm <leader>s: Search
       vim.keymap.set("n", "<leader>sg", fzf.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>sw", fzf.grep_cword, { desc = "Grep Word Under Cursor" })
