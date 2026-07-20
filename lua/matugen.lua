@@ -37,19 +37,19 @@ function M.setup()
   hi('TelescopeSelectionCaret', { fg = '#b4befe',             bg = '#3a3b50' })
   hi('TelescopeMatching',       { fg = '#b4befe',             bold = true })
 
-  -- Line number highlights (dim relative numbers, highlight cursor line number)
+  -- Tô màu số dòng (làm mờ số tương đối, làm nổi số dòng tại con trỏ)
   hi('LineNr',                  { fg = '#45475a' })
   hi('LineNrAbove',             { fg = '#45475a' })
   hi('LineNrBelow',             { fg = '#45475a' })
   hi('CursorLineNr',            { fg = '#b4befe', bold = true })
 
-  -- GitSigns highlight directly on line numbers
+  -- GitSigns tô màu trực tiếp trên số dòng
   hi('GitSignsAddNr',           { fg = '#a6e3a1', bold = true })
   hi('GitSignsChangeNr',        { fg = '#f9e2af', bold = true })
   hi('GitSignsDeleteNr',        { fg = '#f38ba8', bold = true })
 end
 
- -- Register a signal handler for SIGUSR1 (matugen updates)
+ -- Đăng ký handler cho tín hiệu SIGUSR1 (khi matugen cập nhật)
  local signal = vim.uv.new_signal()
  signal:start(
    'sigusr1',

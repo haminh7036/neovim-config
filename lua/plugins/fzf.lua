@@ -15,8 +15,8 @@ return {
         },
       })
 
-      -- Keymaps
-      -- Quick shortcuts (LazyVim style)
+      -- Phím tắt
+      -- Phím tắt nhanh (kiểu LazyVim)
       vim.keymap.set("n", "<leader><space>", fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>/", fzf.live_grep, { desc = "Grep (Root Dir)" })
 

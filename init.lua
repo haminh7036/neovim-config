@@ -1,11 +1,11 @@
--- Load options (các thiết lập hệ thống)
+-- Nạp options (các thiết lập hệ thống)
 require("config.options")
 
--- Load keymaps (phím tắt chung)
+-- Nạp keymaps (phím tắt chung)
 require("config.keymaps")
 
--- Setup lazy.nvim & load plugins
+-- Thiết lập lazy.nvim & nạp plugin
 require("config.lazy")
 
--- Matugen Color Scheme Configuration
+-- Cấu hình bảng màu Matugen
 require("matugen").setup()

@@ -1,5 +1,5 @@
 return {
-  -- Statusline
+  -- Thanh trạng thái (Statusline)
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -12,7 +12,7 @@ return {
       },
     },
   },
-  -- Bufferline (Tabs for buffers)
+  -- Bufferline (tab cho các buffer)
   {
     "akinsho/bufferline.nvim",
     version = "*",
@@ -33,7 +33,7 @@ return {
     },
     config = function(_, opts)
       require("bufferline").setup(opts)
-      -- Keymaps to cycle buffers
+      -- Phím tắt chuyển qua lại giữa các buffer
       vim.keymap.set("n", "<Tab>", "<Cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
       vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
     end,

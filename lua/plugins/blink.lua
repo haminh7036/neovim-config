@@ -1,7 +1,7 @@
 return {
   {
     "Saghen/blink.cmp",
-    lazy = false, -- Load early for autocomplete
+    lazy = false, -- Nạp sớm để có autocomplete
     dependencies = "rafamadriz/friendly-snippets",
     version = "v0.*",
     opts = {

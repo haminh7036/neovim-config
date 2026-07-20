@@ -1,5 +1,5 @@
 return {
-  -- Mason Package Manager
+  -- Trình quản lý gói Mason
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -14,7 +14,7 @@ return {
     end,
   },
 
-  -- LSP Configuration
+  -- Cấu hình LSP
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -29,8 +29,8 @@ return {
     },
     config = function()
       
-      -- Setup servers here.
-      -- mason-lspconfig will auto install them.
+      -- Khai báo các LSP server tại đây.
+      -- mason-lspconfig sẽ tự động cài đặt chúng.
       local servers = {
         lua_ls = {
           settings = {
@@ -39,7 +39,7 @@ return {
             },
           },
         },
-        -- Put other LSP server configurations here
+        -- Đặt cấu hình các LSP server khác tại đây
       }
 
       local mason_lspconfig = require("mason-lspconfig")
@@ -47,14 +47,14 @@ return {
         ensure_installed = vim.tbl_keys(servers),
       })
 
-      -- Get capabilities from blink.cmp
+      -- Lấy capabilities từ blink.cmp
       local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      -- Setup servers manually to avoid deprecated setup_handlers API in newer mason-lspconfig
+      -- Tự thiết lập server để tránh API setup_handlers đã deprecated trong mason-lspconfig mới
       local lspconfig = require("lspconfig")
       local installed_servers = mason_lspconfig.get_installed_servers()
 
-      -- Merge installed servers and our configured servers list
+      -- Gộp danh sách server đã cài với danh sách server đã cấu hình
       local all_servers = {}
       for _, server in ipairs(installed_servers) do
         all_servers[server] = servers[server] or {}
@@ -69,7 +69,7 @@ return {
         vim.lsp.enable(server_name)
       end
 
-      -- Global LSP Keymaps
+      -- Phím tắt LSP toàn cục
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
       vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })

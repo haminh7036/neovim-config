@@ -1,11 +1,11 @@
 return {
-  -- Auto close brackets, quotes, etc.
+  -- Tự động đóng ngoặc, dấu nháy, v.v.
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
   },
-  -- Comment code easily with gc/gcc
+  -- Comment code nhanh bằng gc/gcc
   {
     "numToStr/Comment.nvim",
     event = { "BufReadPost", "BufNewFile" },

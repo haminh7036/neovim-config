@@ -6,7 +6,7 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     config = function()
       require("nvim-treesitter").setup({
-        -- Standard programming parsers
+        -- Các parser lập trình tiêu chuẩn
         ensure_installed = { 
           "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",
           "javascript", "typescript", "html", "css", "json", "yaml", "bash", "python" 

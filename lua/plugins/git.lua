@@ -20,7 +20,7 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
+        -- Điều hướng
         map("n", "]c", function()
           if vim.wo.diff then return "]c" end
           vim.schedule(function() gs.next_hunk() end)
@@ -33,7 +33,7 @@ return {
           return "<Ignore>"
         end, { expr = true, desc = "Prev Git Hunk" })
 
-        -- Actions
+        -- Hành động
         map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage Hunk" })
         map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset Hunk" })
         map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview Hunk" })
