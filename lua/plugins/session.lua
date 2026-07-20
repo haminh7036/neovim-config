@@ -3,6 +3,19 @@ return {
     "folke/persistence.nvim",
     event = "BufReadPre",
     opts = {},
+    init = function()
+      -- Đóng nvim-tree trước khi ghi session để không lưu lại window rỗng
+      -- của file explorer (buffer ảo không thể khôi phục từ đĩa)
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "PersistenceSavePre",
+        callback = function()
+          local ok, api = pcall(require, "nvim-tree.api")
+          if ok then
+            api.tree.close()
+          end
+        end,
+      })
+    end,
     -- Phím tắt để khôi phục/quản lý session
     keys = {
       {
