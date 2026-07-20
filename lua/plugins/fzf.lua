@@ -19,6 +19,7 @@ return {
       -- Phím tắt nhanh (kiểu LazyVim)
       vim.keymap.set("n", "<leader><space>", fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>/", fzf.live_grep, { desc = "Grep (Root Dir)" })
+      vim.keymap.set("n", "<leader>,", fzf.buffers, { desc = "Switch Buffer" })
 
       -- Nhóm <leader>f: Find
       vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
