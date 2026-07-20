@@ -40,6 +40,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 
 ```text
 ~/.config/nvim/
+├── .stylua.toml        # Cấu hình định dạng code Lua (2 spaces)
 ├── init.lua            # Điểm khởi chạy chính
 ├── lazy-lock.json      # File khóa phiên bản của các plugin
 ├── LICENSE             # Giấy phép mã nguồn
