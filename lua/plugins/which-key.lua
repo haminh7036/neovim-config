@@ -28,6 +28,7 @@ return {
       { "<leader>g", group = "Git" },
       { "<leader>q", group = "Session/Quit" },
       { "<leader>s", group = "Search" },
+      { "<leader>x", group = "Diagnostics/Quickfix" },
     })
 
     -- Đăng ký phím tắt Leader + ? để mở bảng tra cứu phím tắt nhanh
