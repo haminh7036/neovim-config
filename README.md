@@ -68,6 +68,11 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
         ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
         ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
         ├── nvim-surround.lua    # Thêm/xóa/đổi cặp ký tự bao quanh (ys/ds/cs)
+        ├── flash.lua            # Nhảy nhanh tới vị trí bất kỳ bằng nhãn ký tự
+        ├── lazydev.lua          # Autocomplete Lua API của Neovim khi sửa config
+        ├── todo-comments.lua    # Highlight & tìm comment TODO/FIX/HACK
+        ├── trouble.lua          # Panel diagnostics / quickfix / references
+        ├── mini-ai.lua          # Mở rộng text object a/i (tham số, lời gọi hàm)
         └── utilities.lua        # Tự động đóng ngoặc & comment nhanh
 ```
 
@@ -93,23 +98,39 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 *   **Persistence**: Tự động lưu phiên làm việc (các tab đang mở, vị trí con trỏ). Có thể khôi phục phiên làm việc trước đó hoặc phiên của thư mục hiện tại bất cứ lúc nào.
 *   **Neoscroll**: Đem lại trải nghiệm cuộn màn hình (scroll) mượt mà bằng các chuyển động animation tự nhiên.
 
+### 5. Tăng tốc di chuyển & chẩn đoán (LazyVim-inspired)
+*   **Flash**: Nhấn `s` + 2 ký tự để hiện nhãn và nhảy tới bất kỳ vị trí nào trên màn hình, nhanh hơn nhiều so với tìm kiếm tuần tự.
+*   **Trouble**: Gom toàn bộ lỗi LSP / quickfix / references vào một panel gọn, điều hướng nhanh giữa các mục.
+*   **Todo Comments**: Tự động tô sáng và cho tìm nhanh các ghi chú `TODO`, `FIX`, `HACK`, `NOTE` trong dự án.
+*   **Mini.ai**: Mở rộng text object `a`/`i` để thao tác theo cấu trúc — chọn tham số, lời gọi hàm, cặp ngoặc/nháy/tag một cách thông minh.
+*   **LazyDev**: Bổ sung autocomplete và type-check cho Lua API của Neovim, cực tiện khi chỉnh sửa chính file cấu hình này.
+
+### 6. Bộ tùy chọn editor tinh chỉnh (Options)
+*   **Thụt lề nhất quán**: Mặc định 2 space (`expandtab`, `shiftwidth=2`), tự thụt lề theo cú pháp code.
+*   **Tìm kiếm thông minh**: `smartcase` (chỉ phân biệt hoa/thường khi query có chữ hoa) và xem trước kết quả `:%s/` ngay khi gõ.
+*   **Undo bền vững**: `undofile` lưu lịch sử undo ra đĩa — mở lại file ngày hôm sau vẫn hoàn tác được.
+*   **Giao diện gọn**: Một statusline toàn cục (`laststatus=3`), cột dấu cố định tránh giật layout, luôn chừa 4 dòng đệm quanh con trỏ.
+
 ---
 
 ## Bảng phím tắt (Keymaps Guide)
 
-### 1. Di chuyển & Điều hướng split
+### 1. Di chuyển, Điều hướng split & Thao tác chung
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Ctrl + h / j / k / l` | Di chuyển sang cửa sổ Trái / Dưới / Trên / Phải | Normal |
 | `Ctrl + Phím mũi tên` | Di chuyển nhanh giữa các cửa sổ split tương ứng | Normal |
 | `Alt + Phím mũi tên Trái` | Nhảy lùi con trỏ về vị trí trước đó (VSCode style) | Normal |
 | `Alt + Phím mũi tên Phải` | Nhảy tiến con trỏ về vị trí tiếp theo (VSCode style) | Normal |
+| `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
+| `Space + ?` | Mở bảng tra cứu toàn bộ phím tắt (Which-Key) | Normal |
 
 ### 2. Quản lý Buffers (Tab đang mở)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Shift + h` hoặc `[b` | Chuyển sang buffer liền trước (Prev Buffer) | Normal |
 | `Shift + l` hoặc `]b` | Chuyển sang buffer liền sau (Next Buffer) | Normal |
+| `Space + ,` | Chuyển nhanh giữa các buffer qua FZF (LazyVim style) | Normal |
 | `Space + bd` | Đóng buffer hiện tại | Normal |
 | `Space + bo` | Đóng toàn bộ các buffer khác (Close Other Buffers) | Normal |
 | `Space + bp` | Ghim / Bỏ ghim buffer hiện tại (Toggle Pin) | Normal |
@@ -148,6 +169,9 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `ys` + vùng + ký tự | Bọc vùng chọn bằng cặp ký tự, vd `ysiw"` (Surround) | Normal |
 | `cs` + cũ + mới | Đổi cặp ký tự bao quanh, vd `cs"'` (Surround) | Normal |
 | `ds` + ký tự | Xóa cặp ký tự bao quanh, vd `ds"` (Surround) | Normal |
+| `cia` / `daa` | Sửa / xóa một tham số trong lời gọi hàm (mini.ai) | Normal |
+| `cif` / `daf` | Sửa / xóa nội dung một lời gọi hàm (mini.ai) | Normal |
+| `cit` / `dat` | Thao tác trong / cả cặp thẻ tag (mini.ai) | Normal |
 
 ### 5. Phiên làm việc & Git UI
 | Phím tắt | Chức năng | Chế độ |
@@ -157,3 +181,23 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + qs` | Khôi phục lại phiên làm việc của thư mục hiện tại | Normal |
 | `Space + ql` | Khôi phục phiên làm việc cuối cùng trước đó | Normal |
 | `Space + qd` | Đặt trạng thái không lưu phiên làm việc hiện tại | Normal |
+
+### 6. Nhảy nhanh trên màn hình (Flash)
+| Phím tắt | Chức năng | Chế độ |
+| :--- | :--- | :--- |
+| `s` + 2 ký tự | Hiện nhãn và nhảy tới vị trí bất kỳ (Flash) | Normal / Visual / Operator |
+| `S` | Nhảy tới theo node cú pháp Treesitter | Normal / Operator |
+| `r` | Flash từ xa khi đang thao tác (Remote Flash) | Operator |
+| `R` | Tìm và mở rộng lựa chọn theo Treesitter | Operator / Visual |
+
+### 7. Chẩn đoán, Todo & Trouble
+| Phím tắt | Chức năng | Chế độ |
+| :--- | :--- | :--- |
+| `]t` / `[t` | Nhảy tới comment Todo tiếp theo / trước đó | Normal |
+| `Space + st` | Tìm kiếm toàn bộ comment Todo qua FZF | Normal |
+| `Space + xt` | Mở danh sách Todo trong panel Trouble | Normal |
+| `Space + xx` | Mở toàn bộ Diagnostics trong Trouble | Normal |
+| `Space + xX` | Mở Diagnostics của riêng buffer hiện tại | Normal |
+| `Space + cs` | Xem cây Symbols của file trong Trouble | Normal |
+| `Space + xl` | Mở Location List trong Trouble | Normal |
+| `Space + xq` | Mở Quickfix List trong Trouble | Normal |
