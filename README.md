@@ -52,21 +52,23 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
     │   ├── lazy.lua    # Thiết lập khởi chạy lazy.nvim
     │   └── options.lua # Các tùy chọn thiết lập hệ thống (options)
     └── plugins/
-        ├── colorscheme.lua # Khai báo plugin nvim-base16
-        ├── nvim-tree.lua   # Cấu hình File Explorer (cây thư mục)
-        ├── which-key.lua   # Nhắc phím tắt thông minh (Which-Key)
-        ├── fcitx5.lua      # Tự động switch bộ gõ Fcitx5 Native Libuv
-        ├── treesitter.lua  # Highlight cú pháp theo AST ngữ nghĩa
-        ├── blink.lua       # Autocomplete thế hệ mới viết bằng Rust
-        ├── lsp.lua         # Native LSP config & Mason package manager
-        ├── fzf.lua         # Tìm kiếm file/code siêu nhanh bằng FZF
-        ├── formatting.lua  # Cấu hình tự động format code khi lưu
-        ├── git.lua         # Gitsigns hiển thị thay đổi trực tiếp ở lề
-        ├── ui.lua          # Thanh Statusline (lualine) & Tabline (bufferline)
-        ├── session.lua     # Tự động lưu và khôi phục phiên làm việc
-        ├── lazygit.lua     # Tích hợp LazyGit UI trực tiếp vào editor
-        ├── neoscroll.lua   # Hiệu ứng cuộn màn hình mượt mà
-        └── utilities.lua   # Tự động đóng ngoặc & comment nhanh
+        ├── colorscheme.lua      # Khai báo plugin nvim-base16
+        ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
+        ├── which-key.lua        # Nhắc phím tắt thông minh (Which-Key)
+        ├── fcitx5.lua           # Tự động switch bộ gõ Fcitx5 Native Libuv
+        ├── treesitter.lua       # Highlight cú pháp theo AST ngữ nghĩa
+        ├── blink.lua            # Autocomplete thế hệ mới viết bằng Rust
+        ├── lsp.lua              # Native LSP config & Mason package manager
+        ├── fzf.lua              # Tìm kiếm file/code siêu nhanh bằng FZF
+        ├── formatting.lua       # Cấu hình tự động format code khi lưu
+        ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề
+        ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
+        ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
+        ├── lazygit.lua          # Tích hợp LazyGit UI trực tiếp vào editor
+        ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
+        ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
+        ├── nvim-surround.lua    # Thêm/xóa/đổi cặp ký tự bao quanh (ys/ds/cs)
+        └── utilities.lua        # Tự động đóng ngoặc & comment nhanh
 ```
 
 ---
@@ -142,6 +144,9 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `[d` / `]d` | Di chuyển đến lỗi Diagnostic trước đó / tiếp theo | Normal |
 | `gcc` | Bật/tắt comment dòng hiện tại | Normal |
 | `gc` | Bật/tắt comment phần code đang bôi đen | Visual |
+| `ys` + vùng + ký tự | Bọc vùng chọn bằng cặp ký tự, vd `ysiw"` (Surround) | Normal |
+| `cs` + cũ + mới | Đổi cặp ký tự bao quanh, vd `cs"'` (Surround) | Normal |
+| `ds` + ký tự | Xóa cặp ký tự bao quanh, vd `ds"` (Surround) | Normal |
 
 ### 5. 🚀 Phiên làm việc & Git UI
 | Phím tắt | Chức năng | Chế độ |
