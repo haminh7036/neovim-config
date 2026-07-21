@@ -17,7 +17,11 @@ return {
         -- Tải các phím tắt mặc định của nvim-tree
         api.config.mappings.default_on_attach(bufnr)
 
-        local cwd = vim.fn.getcwd()
+        -- Đọc thư mục gốc động: project.nvim có thể đổi cwd trong lúc chạy,
+        -- nên phải lấy tại thời điểm gọi thay vì chụp một lần lúc attach.
+        local function get_root()
+          return vim.fn.getcwd()
+        end
 
         -- Hàm mở an toàn, chặn không cho lùi ra ngoài khi nhấn phím mở ở thư mục gốc
         local function safe_open()
@@ -25,7 +29,7 @@ return {
           if not node then return end
 
           -- Nếu đang đứng ở dòng đường dẫn gốc của dự án, chặn không cho thực hiện (tránh nvim-tree lùi ra cha)
-          if node.absolute_path == cwd then
+          if node.absolute_path == get_root() then
             return
           end
 
@@ -38,7 +42,7 @@ return {
           if not node then return end
 
           -- Nếu con trỏ đang ở chính thư mục gốc dự án, chặn không cho lùi tiếp
-          if node.absolute_path == cwd then
+          if node.absolute_path == get_root() then
             return
           end
 
@@ -52,7 +56,7 @@ return {
           local parent = node.parent
           if parent then
             -- Nếu thư mục cha chính là thư mục gốc dự án, chỉ di chuyển lên chứ không đóng (tránh đổi root)
-            if parent.absolute_path == cwd then
+            if parent.absolute_path == get_root() then
               api.node.navigate.parent()
               return
             end
@@ -73,6 +77,14 @@ return {
 
       require("nvim-tree").setup({
         on_attach = my_on_attach,
+        -- Đồng bộ root của cây theo cwd (project.nvim sẽ đổi cwd theo dự án),
+        -- và tự cập nhật root/highlight theo file đang mở.
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+        },
         sort = {
           sorter = "case_sensitive",
         },
