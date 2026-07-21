@@ -64,6 +64,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
         ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề
         ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
         ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
+        ├── project.lua          # Tự nhận diện & chuyển về thư mục gốc dự án
         ├── lazygit.lua          # Tích hợp LazyGit UI trực tiếp vào editor
         ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
         ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
@@ -110,6 +111,11 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 *   **Tìm kiếm thông minh**: `smartcase` (chỉ phân biệt hoa/thường khi query có chữ hoa) và xem trước kết quả `:%s/` ngay khi gõ.
 *   **Undo bền vững**: `undofile` lưu lịch sử undo ra đĩa — mở lại file ngày hôm sau vẫn hoàn tác được.
 *   **Giao diện gọn**: Một statusline toàn cục (`laststatus=3`), cột dấu cố định tránh giật layout, luôn chừa 4 dòng đệm quanh con trỏ.
+
+### 7. Tự động nhận diện thư mục gốc dự án (Project Root)
+*   **Đa ngôn ngữ**: `project.nvim` leo ngược lên tìm file mốc gần nhất của dự án (`composer.json`/`artisan`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`/`Makefile`... hoặc `.git`) rồi chuyển thư mục làm việc về đúng gốc codebase.
+*   **Hợp dự án Docker**: Khi mã nguồn nằm trong thư mục con (ví dụ `laravel/`, `src/`) của một dự án Docker, chỉ cần mở một file bên trong là File Explorer và tìm kiếm FZF tự bám đúng gốc codebase thay vì thư mục Docker bên ngoài.
+*   **Đồng bộ Explorer**: `nvim-tree` tự cập nhật gốc cây thư mục theo thư mục làm việc, luôn hiển thị đúng phạm vi dự án hiện tại.
 
 ---
 
