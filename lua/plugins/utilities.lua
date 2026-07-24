@@ -9,6 +9,12 @@ return {
   {
     "numToStr/Comment.nvim",
     event = { "BufReadPost", "BufNewFile" },
+    keys = {
+      { "gcc", desc = "Comment toggle current line" },
+      { "gc", mode = { "n", "o", "x" }, desc = "Comment toggle linewise" },
+      { "gbc", desc = "Comment toggle current block" },
+      { "gb", mode = { "n", "o", "x" }, desc = "Comment toggle blockwise" },
+    },
     config = true,
   },
 }
