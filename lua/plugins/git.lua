@@ -41,5 +41,31 @@ return {
         map("n", "<leader>gd", gs.diffthis, { desc = "Diff File" })
       end,
     },
-  }
+  },
+
+  -- Quản lý & giải quyết Git conflict trực tiếp trong buffer
+  {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      default_mappings = true,
+      default_commands = true,
+      disable_diagnostics = true,
+      highlights = {
+        incoming = "DiffAdd",
+        current = "DiffText",
+      },
+    },
+  },
+
+  -- Xem Git Diff & 3-Way Merge dạng Side-by-Side chuyên nghiệp
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview File History" },
+    },
+  },
 }
