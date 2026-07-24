@@ -33,8 +33,8 @@ vim.keymap.set("n", "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", { d
 vim.keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close Buffers to the Right" })
 vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close Buffers to the Left" })
 
--- Save File
-vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
+-- Save File and return to Normal mode
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File and Normal Mode" })
 
 -- Nhảy tới/lùi lịch sử con trỏ (VSCode style)
 vim.keymap.set("n", "<A-Left>", "<C-o>", { desc = "Go Back" })
