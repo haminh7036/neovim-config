@@ -13,6 +13,16 @@ return {
             layout = "vertical",
           },
         },
+        keymap = {
+          builtin = {
+            ["<c-d>"] = "preview-page-down",
+            ["<c-u>"] = "preview-page-up",
+          },
+          fzf = {
+            ["ctrl-d"] = "preview-page-down",
+            ["ctrl-u"] = "preview-page-up",
+          },
+        },
       })
 
       -- Phím tắt

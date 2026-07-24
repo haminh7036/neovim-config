@@ -36,20 +36,9 @@ function M.setup()
   hi('TelescopeSelection',      { fg = '#cdd6f4',          bg = '#3a3b50' })
   hi('TelescopeSelectionCaret', { fg = '#b4befe',             bg = '#3a3b50' })
   hi('TelescopeMatching',       { fg = '#b4befe',             bold = true })
-
-  -- Tô màu số dòng (làm mờ số tương đối, làm nổi số dòng tại con trỏ)
-  hi('LineNr',                  { fg = '#45475a' })
-  hi('LineNrAbove',             { fg = '#45475a' })
-  hi('LineNrBelow',             { fg = '#45475a' })
-  hi('CursorLineNr',            { fg = '#b4befe', bold = true })
-
-  -- GitSigns tô màu trực tiếp trên số dòng
-  hi('GitSignsAddNr',           { fg = '#a6e3a1', bold = true })
-  hi('GitSignsChangeNr',        { fg = '#f9e2af', bold = true })
-  hi('GitSignsDeleteNr',        { fg = '#f38ba8', bold = true })
 end
 
- -- Đăng ký handler cho tín hiệu SIGUSR1 (khi matugen cập nhật)
+ -- Register a signal handler for SIGUSR1 (matugen updates)
  local signal = vim.uv.new_signal()
  signal:start(
    'sigusr1',

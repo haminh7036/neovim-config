@@ -47,3 +47,7 @@ opt.undolevels = 10000 -- Số bước undo tối đa
 -- === Phản hồi ===
 opt.updatetime = 200 -- Kích hoạt event (hover, blame...) sau 200ms
 opt.timeoutlen = 300 -- Thời gian chờ phím tiếp theo của tổ hợp (which-key)
+
+-- === Cấu hình Session ===
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+
