@@ -2,50 +2,40 @@ return {
   {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
-    config = function()
-      local fzf = require("fzf-lua")
-      fzf.setup({
-        winopts = {
-          height = 0.85,
-          width = 0.80,
-          preview = {
-            layout = "vertical",
-          },
+    keys = {
+      { "<leader><space>", function() require("fzf-lua").files() end, desc = "Find Files" },
+      { "<leader>/", function() require("fzf-lua").live_grep() end, desc = "Grep (Root Dir)" },
+      { "<leader>,", function() require("fzf-lua").buffers() end, desc = "Switch Buffer" },
+      { "<leader>ff", function() require("fzf-lua").files() end, desc = "Find Files" },
+      { "<leader>fr", function() require("fzf-lua").oldfiles() end, desc = "Recent Files" },
+      { "<leader>fb", function() require("fzf-lua").buffers() end, desc = "Buffers" },
+      { "<leader>bb", function() require("fzf-lua").buffers() end, desc = "Switch Buffer" },
+      { "<leader>sg", function() require("fzf-lua").live_grep() end, desc = "Live Grep" },
+      { "<leader>sw", function() require("fzf-lua").grep_cword() end, desc = "Grep Word Under Cursor" },
+      { "<leader>sb", function() require("fzf-lua").buffers() end, desc = "Search Buffers" },
+      { "<leader>ss", function() require("fzf-lua").lsp_document_symbols() end, desc = "Document Symbols" },
+      { "<leader>sh", function() require("fzf-lua").help_tags() end, desc = "Help Tags" },
+      { "<leader>sk", function() require("fzf-lua").keymaps() end, desc = "Keymaps" },
+    },
+    opts = {
+      winopts = {
+        height = 0.85,
+        width = 0.80,
+        preview = {
+          layout = "vertical",
         },
-        keymap = {
-          builtin = {
-            ["<c-d>"] = "preview-page-down",
-            ["<c-u>"] = "preview-page-up",
-          },
-          fzf = {
-            ["ctrl-d"] = "preview-page-down",
-            ["ctrl-u"] = "preview-page-up",
-          },
+      },
+      keymap = {
+        builtin = {
+          ["<c-d>"] = "preview-page-down",
+          ["<c-u>"] = "preview-page-up",
         },
-      })
-
-      -- Phím tắt
-      -- Phím tắt nhanh (kiểu LazyVim)
-      vim.keymap.set("n", "<leader><space>", fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>/", fzf.live_grep, { desc = "Grep (Root Dir)" })
-      vim.keymap.set("n", "<leader>,", fzf.buffers, { desc = "Switch Buffer" })
-
-      -- Nhóm <leader>f: Find
-      vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Recent Files" })
-      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Buffers" })
-
-      -- Nhóm <leader>b: Buffer
-      vim.keymap.set("n", "<leader>bb", fzf.buffers, { desc = "Switch Buffer" })
-
-      -- Nhóm <leader>s: Search
-      vim.keymap.set("n", "<leader>sg", fzf.live_grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>sw", fzf.grep_cword, { desc = "Grep Word Under Cursor" })
-      vim.keymap.set("n", "<leader>sb", fzf.buffers, { desc = "Search Buffers" })
-      vim.keymap.set("n", "<leader>ss", fzf.lsp_document_symbols, { desc = "Document Symbols" })
-      vim.keymap.set("n", "<leader>sh", fzf.help_tags, { desc = "Help Tags" })
-      vim.keymap.set("n", "<leader>sk", fzf.keymaps, { desc = "Keymaps" })
-    end,
-  }
+        fzf = {
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-u"] = "preview-page-up",
+        },
+      },
+    },
+  },
 }
+

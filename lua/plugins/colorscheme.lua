@@ -1,4 +1,12 @@
 return {
-  -- Plugin cung cấp module 'base16-colorscheme' cho matugen.lua
-  { "RRethy/nvim-base16" },
+  {
+    "RRethy/nvim-base16",
+    config = function()
+      local ok, matugen = pcall(require, "matugen")
+      if ok then
+        matugen.setup()
+      end
+    end,
+  },
 }
+

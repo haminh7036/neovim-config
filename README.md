@@ -52,7 +52,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
     │   ├── lazy.lua    # Thiết lập khởi chạy lazy.nvim
     │   └── options.lua # Các tùy chọn thiết lập hệ thống (options)
     └── plugins/
-        ├── colorscheme.lua      # Khai báo plugin nvim-base16
+        ├── colorscheme.lua      # Cấu hình màu sắc hệ thống (nvim-base16 & Matugen)
         ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
         ├── which-key.lua        # Nhắc phím tắt thông minh (Which-Key)
         ├── fcitx5.lua           # Tự động switch bộ gõ Fcitx5 Native Libuv
@@ -62,6 +62,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
         ├── fzf.lua              # Tìm kiếm file/code siêu nhanh bằng FZF
         ├── formatting.lua       # Cấu hình tự động format code khi lưu
         ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề
+        ├── image.lua            # Hiển thị xem trước hình ảnh (Kitty Graphics Protocol)
         ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
         ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
         ├── project.lua          # Tự nhận diện & chuyển về thư mục gốc dự án
@@ -74,7 +75,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
         ├── todo-comments.lua    # Highlight & tìm comment TODO/FIX/HACK
         ├── trouble.lua          # Panel diagnostics / quickfix / references
         ├── mini-ai.lua          # Mở rộng text object a/i (tham số, lời gọi hàm)
-        └── utilities.lua        # Tự động đóng ngoặc & comment nhanh
+        └── utilities.lua        # Tự động đóng ngoặc (nvim-autopairs)
 ```
 
 ---
