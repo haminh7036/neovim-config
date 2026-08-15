@@ -50,20 +50,7 @@ return {
       -- Lấy capabilities từ blink.cmp
       local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      -- Tự thiết lập server để tránh API setup_handlers đã deprecated trong mason-lspconfig mới
-      local lspconfig = require("lspconfig")
-      local installed_servers = mason_lspconfig.get_installed_servers()
-
-      -- Gộp danh sách server đã cài với danh sách server đã cấu hình
-      local all_servers = {}
-      for _, server in ipairs(installed_servers) do
-        all_servers[server] = servers[server] or {}
-      end
       for server_name, server_opts in pairs(servers) do
-        all_servers[server_name] = server_opts
-      end
-
-      for server_name, server_opts in pairs(all_servers) do
         server_opts.capabilities = capabilities
         vim.lsp.config(server_name, server_opts)
         vim.lsp.enable(server_name)
