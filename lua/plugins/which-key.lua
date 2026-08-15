@@ -7,10 +7,10 @@ return {
     vim.o.timeoutlen = 300
   end,
   opts = {
-    -- Lọc bỏ các gợi ý liên quan đến thao tác chuột (Mouse, Scroll...)
+    -- Lọc bỏ thao tác chuột và phím cuộn để Which-Key ưu tiên dùng Ctrl+D / Ctrl+U cuộn popup
     filter = function(mapping)
       local lhs = mapping.lhs:lower()
-      if lhs:find("mouse") or lhs:find("scroll") then
+      if lhs:find("mouse") or lhs:find("scroll") or lhs == "<c-d>" or lhs == "<c-u>" then
         return false
       end
       return true
