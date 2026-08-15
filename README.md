@@ -65,8 +65,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
         ├── image.lua            # Hiển thị xem trước hình ảnh (Kitty Graphics Protocol)
         ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
         ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
-        ├── project.lua          # Tự nhận diện & chuyển về thư mục gốc dự án
-        ├── lazygit.lua          # Tích hợp LazyGit UI trực tiếp vào editor
+        ├── project.lua          # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
+        ├── lazygit.lua          # Tích hợp LazyGit UI floating window native
         ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
         ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
         ├── nvim-surround.lua    # Thêm/xóa/đổi cặp ký tự bao quanh (ys/ds/cs)
@@ -85,7 +85,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 ### 1. Bộ gõ Tiếng Việt Fcitx5 Native
 *   **Không độ trễ**: Sử dụng Native Libuv spawn (`vim.fn.system` truyền list) gọi trực tiếp binary `fcitx5-remote` không qua shell con. Tắt tiếng Việt chỉ mất dưới **1ms** ngay khi bấm `<Esc>`.
 *   **Buffer-local**: Nhớ trạng thái bộ gõ của từng file riêng biệt. File này gõ tiếng Việt, file kia gõ tiếng Anh khi chuyển qua lại sẽ tự động chuyển đúng trạng thái.
-*   **Ignore Filetypes**: Tự động bỏ qua và ép tắt tiếng Việt ở các cửa sổ đặc biệt như `NvimTree`, `Telescope`, `fzf`, `lazy`... để gõ phím tắt Normal mode không bao giờ bị dính preedit.
+*   **Ignore Filetypes**: Tự động bỏ qua và ép tắt tiếng Việt ở các cửa sổ đặc biệt như `NvimTree`, `fzf`, `lazy`, `mason`... để gõ phím tắt Normal mode không bao giờ bị dính preedit.
 *   **Focus & System Sync**: Tự động trả lại bộ gõ tiếng Việt khi chuyển cửa sổ (Alt+Tab) ra ứng dụng khác và khôi phục bộ gõ gốc của hệ thống khi thoát Neovim.
 
 ### 2. Native LSP (v0.12+) & Autocomplete
@@ -113,8 +113,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 *   **Undo bền vững**: `undofile` lưu lịch sử undo ra đĩa — mở lại file ngày hôm sau vẫn hoàn tác được.
 *   **Giao diện gọn**: Một statusline toàn cục (`laststatus=3`), cột dấu cố định tránh giật layout, luôn chừa 4 dòng đệm quanh con trỏ.
 
-### 7. Tự động nhận diện thư mục gốc dự án (Project Root)
-*   **Đa ngôn ngữ**: `project.nvim` leo ngược lên tìm file mốc gần nhất của dự án (`composer.json`/`artisan`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`/`Makefile`... hoặc `.git`) rồi chuyển thư mục làm việc về đúng gốc codebase.
+### 7. Tự động nhận diện thư mục gốc dự án (Native Project Root)
+*   **Đa ngôn ngữ**: Tận dụng hàm C-API `vim.fs.root` native của Neovim để tự động leo ngược tìm file mốc gần nhất (`composer.json`/`artisan`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`/`Makefile`... hoặc `.git`) và chuyển thư mục làm việc về đúng gốc codebase tức thì không độ trễ.
 *   **Hợp dự án Docker**: Khi mã nguồn nằm trong thư mục con (ví dụ `laravel/`, `src/`) của một dự án Docker, chỉ cần mở một file bên trong là File Explorer và tìm kiếm FZF tự bám đúng gốc codebase thay vì thư mục Docker bên ngoài.
 *   **Đồng bộ Explorer**: `nvim-tree` tự cập nhật gốc cây thư mục theo thư mục làm việc, luôn hiển thị đúng phạm vi dự án hiện tại.
 
@@ -127,6 +127,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | :--- | :--- | :--- |
 | `Ctrl + h / j / k / l` | Di chuyển sang cửa sổ Trái / Dưới / Trên / Phải | Normal |
 | `Ctrl + Phím mũi tên` | Di chuyển nhanh giữa các cửa sổ split tương ứng | Normal |
+| `Alt + j` | Đẩy dòng / vùng chọn đang bôi đen xuống dưới | Normal / Insert / Visual |
+| `Alt + k` | Đẩy dòng / vùng chọn đang bôi đen lên trên | Normal / Insert / Visual |
 | `Alt + Phím mũi tên Trái` | Nhảy lùi con trỏ về vị trí trước đó (VSCode style) | Normal |
 | `Alt + Phím mũi tên Phải` | Nhảy tiến con trỏ về vị trí tiếp theo (VSCode style) | Normal |
 | `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
@@ -184,7 +186,14 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Space + e` | Bật/tắt cây thư mục File Explorer (`nvim-tree`) | Normal |
-| `Space + gg` | Mở giao diện quản lý Git trực quan (`lazygit`) | Normal |
+| `Space + gg` | Mở giao diện quản lý Git trực quan (`lazygit` floating window) | Normal |
+| `]c` / `[c` | Di chuyển đến thay đổi Git Hunk tiếp theo / trước đó | Normal |
+| `Space + gp` | Xem trước (Preview) thay đổi của Git Hunk tại con trỏ | Normal |
+| `Space + gb` | Xem Git Blame chi tiết của dòng hiện tại | Normal |
+| `Space + gs` | Stage (đánh dấu lưu) Git Hunk hiện tại | Normal |
+| `Space + gr` | Hoàn tác (Reset) thay đổi của Git Hunk hiện tại | Normal |
+| `Space + gD` | Mở giao diện Diffview xem thay đổi toàn bộ dự án | Normal |
+| `Space + gh` | Xem lịch sử commit của file hiện tại (`DiffviewFileHistory`) | Normal |
 | `Space + qs` | Khôi phục lại phiên làm việc của thư mục hiện tại | Normal |
 | `Space + ql` | Khôi phục phiên làm việc cuối cùng trước đó | Normal |
 | `Space + qd` | Đặt trạng thái không lưu phiên làm việc hiện tại | Normal |
