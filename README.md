@@ -132,6 +132,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Alt + Phím mũi tên Trái` | Nhảy lùi con trỏ về vị trí trước đó (VSCode style) | Normal |
 | `Alt + Phím mũi tên Phải` | Nhảy tiến con trỏ về vị trí tiếp theo (VSCode style) | Normal |
 | `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
+| `Ctrl + /` | Bật/tắt Terminal nổi nhanh (Native Floating Terminal) | Normal / Terminal |
 | `Ctrl + d` / `Ctrl + u` | Cuộn nửa trang và luôn giữ con trỏ căn giữa màn hình | Normal |
 | `n` / `N` | Nhảy kết quả tìm kiếm tiếp theo/trước đó và căn giữa màn hình | Normal |
 | `<` / `>` | Thụt lề sang trái/phải và giữ nguyên vùng chọn (Visual continuous indent) | Visual |
@@ -160,6 +161,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + ff` | Tìm kiếm File trong thư mục dự án | Normal |
 | `Space + fr` | Danh sách các file mở gần đây (Recent Files) | Normal |
 | `Space + fb` | Danh sách buffer đang hoạt động | Normal |
+| `Space + ft` | Bật/tắt Terminal nổi (Native Floating Terminal) | Normal |
 | `Space + sg` | Tìm kiếm từ khóa (Live Grep) | Normal |
 | `Space + sw` | Tìm kiếm từ dưới con trỏ (Grep Word) | Normal |
 | `Space + ss` | Tìm kiếm các ký hiệu (symbols) trong file hiện tại | Normal |
@@ -176,6 +178,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `K` | Xem tài liệu nhanh của ký hiệu dưới con trỏ (Hover) | Normal |
 | `Space + cr` | Đổi tên biến/hàm hàng loạt (Rename) | Normal |
 | `Space + ca` | Xem các hành động sửa lỗi nhanh (Code Action) | Normal |
+| `Space + cd` | Xem thông tin lỗi chi tiết của dòng hiện tại (Line Diagnostics) | Normal |
 | `Space + cf` | Định dạng lại code của file hiện tại (Format) | Normal |
 | `[d` / `]d` | Di chuyển đến lỗi Diagnostic trước đó / tiếp theo | Normal |
 | `gcc` | Bật/tắt comment dòng hiện tại | Normal |
