@@ -136,8 +136,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 ### 2. Quản lý Buffers (Tab đang mở)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Shift + h` hoặc `[b` | Chuyển sang buffer liền trước (Prev Buffer) | Normal |
-| `Shift + l` hoặc `]b` | Chuyển sang buffer liền sau (Next Buffer) | Normal |
+| `Tab` hoặc `Shift + l` hoặc `]b` | Chuyển sang buffer liền sau (Next Buffer) | Normal |
+| `Shift + Tab` hoặc `Shift + h` hoặc `[b` | Chuyển sang buffer liền trước (Prev Buffer) | Normal |
 | `Space + ,` | Chuyển nhanh giữa các buffer qua FZF (LazyVim style) | Normal |
 | `Space + bd` | Đóng buffer hiện tại | Normal |
 | `Space + bo` | Đóng toàn bộ các buffer khác (Close Other Buffers) | Normal |
@@ -145,6 +145,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + bP` | Đóng toàn bộ các buffer không được ghim | Normal |
 | `Space + br` | Đóng toàn bộ các buffer nằm bên phải buffer hiện tại | Normal |
 | `Space + bl` | Đóng toàn bộ các buffer nằm bên trái buffer hiện tại | Normal |
+| `Space + b + 1..9` | Nhảy trực tiếp tới Buffer theo số thứ tự (vd: `<leader>b1`) | Normal |
 
 ### 3. Tìm kiếm nhanh (FZF-Lua)
 | Phím tắt | Chức năng | Chế độ |
