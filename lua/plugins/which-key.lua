@@ -69,6 +69,7 @@ return {
       { "<leader>g", group = "Git" },
       { "<leader>q", group = "Session/Quit" },
       { "<leader>s", group = "Search" },
+      { "<leader>u", group = "UI/Toggle" },
       { "<leader>x", group = "Diagnostics/Quickfix" },
     })
 

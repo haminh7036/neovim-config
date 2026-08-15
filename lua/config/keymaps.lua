@@ -87,3 +87,32 @@ local function open_lazygit()
 end
 
 vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "LazyGit" })
+
+-- Giữ con trỏ ở giữa màn hình khi cuộn trang và tìm kiếm
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll Down and Center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll Up and Center" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next Search Result and Center" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev Search Result and Center" })
+
+-- Thụt lề liên tục trong Visual mode (giữ nguyên vùng chọn)
+vim.keymap.set("v", "<", "<gv", { desc = "Indent Left and Reselect" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent Right and Reselect" })
+
+-- Điều hướng danh sách Quickfix Native
+vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Previous Quickfix Item" })
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next Quickfix Item" })
+
+-- Bật/tắt các thành phần giao diện (UI Toggles)
+if vim.lsp.inlay_hint then
+  vim.keymap.set("n", "<leader>uh", function()
+    local enabled = vim.lsp.inlay_hint.is_enabled()
+    vim.lsp.inlay_hint.enable(not enabled)
+    vim.notify("Inlay Hints: " .. (not enabled and "ON" or "OFF"))
+  end, { desc = "Toggle Inlay Hints" })
+end
+
+vim.keymap.set("n", "<leader>ud", function()
+  local current = vim.diagnostic.config().virtual_text
+  vim.diagnostic.config({ virtual_text = not current })
+  vim.notify("Diagnostic Virtual Text: " .. (not current and "ON" or "OFF"))
+end, { desc = "Toggle Diagnostic Virtual Text" })

@@ -7,6 +7,9 @@ require("config.keymaps")
 -- Tự động nhận diện thư mục gốc dự án (Native vim.fs.root)
 require("config.root")
 
+-- Các autocmd tiện ích native (Yank highlight, restore cursor, auto-create dir...)
+require("config.autocmds")
+
 -- Quản lý bộ gõ tiếng Việt Fcitx5 Native
 require("config.fcitx5")
 
