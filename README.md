@@ -48,25 +48,24 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 └── lua/
     ├── matugen.lua     # Đồng bộ màu sắc hệ thống Matugen
     ├── config/
-    │   ├── keymaps.lua # Cấu hình phím tắt chung của hệ thống
+    │   ├── fcitx5.lua  # Quản lý bộ gõ tiếng Việt Fcitx5 Native Libuv
+    │   ├── keymaps.lua # Cấu hình phím tắt chung & LazyGit popup native
     │   ├── lazy.lua    # Thiết lập khởi chạy lazy.nvim
-    │   └── options.lua # Các tùy chọn thiết lập hệ thống (options)
+    │   ├── options.lua # Các tùy chọn thiết lập hệ thống (options)
+    │   └── root.lua    # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
     └── plugins/
         ├── colorscheme.lua      # Cấu hình màu sắc hệ thống (nvim-base16 & Matugen)
         ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
         ├── which-key.lua        # Nhắc phím tắt thông minh (Which-Key)
-        ├── fcitx5.lua           # Tự động switch bộ gõ Fcitx5 Native Libuv
         ├── treesitter.lua       # Highlight cú pháp theo AST ngữ nghĩa
         ├── blink.lua            # Autocomplete thế hệ mới viết bằng Rust
         ├── lsp.lua              # Native LSP config & Mason package manager
         ├── fzf.lua              # Tìm kiếm file/code siêu nhanh bằng FZF
         ├── formatting.lua       # Cấu hình tự động format code khi lưu
-        ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề
+        ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề & Diffview
         ├── image.lua            # Hiển thị xem trước hình ảnh (Kitty Graphics Protocol)
         ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
         ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
-        ├── project.lua          # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
-        ├── lazygit.lua          # Tích hợp LazyGit UI floating window native
         ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
         ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
         ├── nvim-surround.lua    # Thêm/xóa/đổi cặp ký tự bao quanh (ys/ds/cs)
