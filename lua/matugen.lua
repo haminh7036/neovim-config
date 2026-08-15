@@ -21,14 +21,20 @@ function M.setup()
   })
 end
 
- -- Register a signal handler for SIGUSR1 (matugen updates)
- local signal = vim.uv.new_signal()
- signal:start(
-   'sigusr1',
-   vim.schedule_wrap(function()
-     package.loaded['matugen'] = nil
-     require('matugen').setup()
-   end)
- )
+-- Register a signal handler for SIGUSR1 (matugen updates, Unix only)
+if vim.fn.has("unix") == 1 then
+  local signal = vim.uv.new_signal()
+  if signal then
+    pcall(function()
+      signal:start(
+        "sigusr1",
+        vim.schedule_wrap(function()
+          package.loaded["matugen"] = nil
+          require("matugen").setup()
+        end)
+      )
+    end)
+  end
+end
 
- return M
+return M
