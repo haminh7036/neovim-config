@@ -88,6 +88,61 @@ end
 
 vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "LazyGit" })
 
+-- Native Floating Terminal Toggle
+local term_state = { buf = nil, win = nil }
+
+local function toggle_terminal()
+  if term_state.win and vim.api.nvim_win_is_valid(term_state.win) then
+    vim.api.nvim_win_hide(term_state.win)
+    term_state.win = nil
+    return
+  end
+
+  if not term_state.buf or not vim.api.nvim_buf_is_valid(term_state.buf) then
+    term_state.buf = vim.api.nvim_create_buf(false, true)
+  end
+
+  local width = math.floor(vim.o.columns * 0.85)
+  local height = math.floor(vim.o.lines * 0.85)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  term_state.win = vim.api.nvim_open_win(term_state.buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+    title = " Terminal ",
+    title_pos = "center",
+  })
+
+  -- Nếu buffer chưa có terminal channel thì khởi tạo
+  if vim.bo[term_state.buf].buftype ~= "terminal" then
+    vim.fn.termopen(vim.o.shell, {
+      on_exit = function()
+        if term_state.win and vim.api.nvim_win_is_valid(term_state.win) then
+          vim.api.nvim_win_close(term_state.win, true)
+          term_state.win = nil
+        end
+        if term_state.buf and vim.api.nvim_buf_is_valid(term_state.buf) then
+          vim.api.nvim_buf_delete(term_state.buf, { force = true })
+          term_state.buf = nil
+        end
+      end,
+    })
+  end
+
+  vim.cmd("startinsert")
+end
+
+vim.keymap.set({ "n", "t" }, "<C-/>", toggle_terminal, { desc = "Toggle Floating Terminal" })
+vim.keymap.set({ "n", "t" }, "<C-_>", toggle_terminal, { desc = "Toggle Floating Terminal" })
+vim.keymap.set("n", "<leader>ft", toggle_terminal, { desc = "Terminal (Floating)" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit Terminal Mode" })
+
 -- Giữ con trỏ ở giữa màn hình khi cuộn trang và tìm kiếm
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll Down and Center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll Up and Center" })
