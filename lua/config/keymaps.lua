@@ -13,6 +13,8 @@ vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = "Go to Upper Window" })
 vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Go to Right Window" })
 
 -- Quản lý Buffer
+vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
