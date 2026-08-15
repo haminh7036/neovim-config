@@ -56,6 +56,23 @@ return {
         vim.lsp.enable(server_name)
       end
 
+      -- Cấu hình viền bo tròn (rounded) & icon cho LSP / Diagnostics
+      local border = "rounded"
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
+
+      vim.diagnostic.config({
+        float = { border = border },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = " ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
+      })
+
       -- Phím tắt LSP toàn cục
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
@@ -64,6 +81,7 @@ return {
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
       vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+      vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
       vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
       vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
     end,
