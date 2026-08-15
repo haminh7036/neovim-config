@@ -19,23 +19,6 @@ function M.setup()
     base0E = '#ee90d5',
     base0F = '#c8043a',
   })
-
-  local hi = function(group, opts)
-    vim.api.nvim_set_hl(0, group, opts)
-  end
-
-  hi('TelescopeNormal',         { fg = '#cdd6f4',          bg = '#1e1e2e' })
-  hi('TelescopeBorder',         { fg = '#646883',             bg = '#1e1e2e' })
-  hi('TelescopePromptNormal',   { fg = '#cdd6f4',          bg = '#1e1e2e' })
-  hi('TelescopePromptBorder',   { fg = '#646883',             bg = '#1e1e2e' })
-  hi('TelescopePromptPrefix',   { fg = '#b4befe',             bg = '#1e1e2e' })
-  hi('TelescopePromptCounter',  { fg = '#a3b4eb',  bg = '#1e1e2e' })
-  hi('TelescopePromptTitle',    { fg = '#1e1e2e',             bg = '#b4befe' })
-  hi('TelescopePreviewTitle',   { fg = '#1e1e2e',             bg = '#f5bde6' })
-  hi('TelescopeResultsTitle',   { fg = '#1e1e2e',             bg = '#c6a0f6' })
-  hi('TelescopeSelection',      { fg = '#cdd6f4',          bg = '#3a3b50' })
-  hi('TelescopeSelectionCaret', { fg = '#b4befe',             bg = '#3a3b50' })
-  hi('TelescopeMatching',       { fg = '#b4befe',             bold = true })
 end
 
  -- Register a signal handler for SIGUSR1 (matugen updates)
