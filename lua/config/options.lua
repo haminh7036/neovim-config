@@ -22,6 +22,10 @@ opt.shiftround = true -- >> làm tròn về bội số của shiftwidth
 opt.ignorecase = true -- Không phân biệt hoa/thường
 opt.smartcase = true -- ...trừ khi query có chữ hoa
 opt.inccommand = "nosplit" -- Xem trước kết quả :%s/ khi đang gõ
+if vim.fn.executable("rg") == 1 then
+  opt.grepprg = "rg --vimgrep"
+  opt.grepformat = "%f:%l:%c:%m"
+end
 
 -- === Giao diện / chỉnh sửa ===
 opt.termguicolors = true -- Bật màu 24-bit cho colorscheme
@@ -31,6 +35,8 @@ opt.sidescrolloff = 8 -- Tương tự theo chiều ngang
 opt.wrap = false -- Dòng dài không xuống hàng
 opt.linebreak = true -- Nếu có wrap thì ngắt ở khoảng trắng
 opt.virtualedit = "block" -- Cho phép đặt con trỏ ở vùng trống khi visual-block
+opt.smoothscroll = true -- Cuộn mượt từng pixel cho dòng dài
+opt.jumpoptions = "view" -- Giữ nguyên góc nhìn màn hình khi nhảy Ctrl+o/i
 opt.laststatus = 3 -- Một statusline duy nhất toàn màn hình
 opt.pumheight = 10 -- Menu gợi ý tối đa 10 dòng
 opt.pumblend = 10 -- Menu gợi ý hơi trong suốt
