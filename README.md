@@ -48,11 +48,12 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 └── lua/
     ├── matugen.lua     # Đồng bộ màu sắc hệ thống Matugen
     ├── config/
-    │   ├── fcitx5.lua  # Quản lý bộ gõ tiếng Việt Fcitx5 Native Libuv
-    │   ├── keymaps.lua # Cấu hình phím tắt chung & LazyGit popup native
-    │   ├── lazy.lua    # Thiết lập khởi chạy lazy.nvim
-    │   ├── options.lua # Các tùy chọn thiết lập hệ thống (options)
-    │   └── root.lua    # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
+    │   ├── autocmds.lua # Các autocmd tiện ích native (Yank highlight, restore cursor...)
+    │   ├── fcitx5.lua   # Quản lý bộ gõ tiếng Việt Fcitx5 Native Libuv
+    │   ├── keymaps.lua  # Cấu hình phím tắt chung & LazyGit popup native
+    │   ├── lazy.lua     # Thiết lập khởi chạy lazy.nvim
+    │   ├── options.lua  # Các tùy chọn thiết lập hệ thống (options)
+    │   └── root.lua     # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
     └── plugins/
         ├── colorscheme.lua      # Cấu hình màu sắc hệ thống (nvim-base16 & Matugen)
         ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
@@ -131,6 +132,10 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Alt + Phím mũi tên Trái` | Nhảy lùi con trỏ về vị trí trước đó (VSCode style) | Normal |
 | `Alt + Phím mũi tên Phải` | Nhảy tiến con trỏ về vị trí tiếp theo (VSCode style) | Normal |
 | `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
+| `Ctrl + d` / `Ctrl + u` | Cuộn nửa trang và luôn giữ con trỏ căn giữa màn hình | Normal |
+| `n` / `N` | Nhảy kết quả tìm kiếm tiếp theo/trước đó và căn giữa màn hình | Normal |
+| `<` / `>` | Thụt lề sang trái/phải và giữ nguyên vùng chọn (Visual continuous indent) | Visual |
+| `]q` / `[q` | Di chuyển tới mục Quickfix List tiếp theo / trước đó | Normal |
 | `Space + ?` | Mở bảng tra cứu toàn bộ phím tắt (Which-Key) | Normal |
 
 ### 2. Quản lý Buffers (Tab đang mở)
@@ -217,3 +222,9 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + cs` | Xem cây Symbols của file trong Trouble | Normal |
 | `Space + xl` | Mở Location List trong Trouble | Normal |
 | `Space + xq` | Mở Quickfix List trong Trouble | Normal |
+
+### 8. Bật/tắt Giao diện (UI Toggles)
+| Phím tắt | Chức năng | Chế độ |
+| :--- | :--- | :--- |
+| `Space + uh` | Bật/tắt hiển thị gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
+| `Space + ud` | Bật/tắt dòng chữ báo lỗi trên code (Diagnostic Virtual Text) | Normal |
