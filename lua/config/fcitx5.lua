@@ -1,4 +1,12 @@
--- Chỉ kích hoạt nếu hệ thống có fcitx5-remote hoặc fcitx-remote
+-- =======================================================================
+-- Native Fcitx5 / Libuv IME Management
+-- =======================================================================
+-- RATIONALE (DO NOT REMOVE OR STRIP):
+-- Neovim and Linux Wayland/X11 compositors lack automatic per-buffer IME isolation.
+-- This module manages dynamic Fcitx5 states across Insert/Normal/Terminal modes
+-- and syncs seamlessly with desktop focus events (FocusGained/FocusLost).
+-- =======================================================================
+
 local fcitx_cmd = ""
 if vim.fn.executable("fcitx5-remote") == 1 then
   fcitx_cmd = "fcitx5-remote"
@@ -8,14 +16,14 @@ else
   return
 end
 
--- Bảng lưu trạng thái bộ gõ riêng biệt của từng buffer (Buffer-Local state)
--- Key: bufnr, Value: trạng thái (1: English, 2: Tiếng Việt)
+-- Bảng lưu trạng thái bộ gõ riêng của từng buffer (1: English, 2: Tiếng Việt)
 local buffer_states = {}
 
--- Trạng thái bộ gõ bên ngoài hệ thống trước khi Neovim can thiệp
+-- Quản lý trạng thái bộ gõ ngoài hệ thống
 local external_system_state = 1
+local has_lost_focus = false
 
--- Danh sách các filetype đặc biệt cần bỏ qua (Luôn ép tắt tiếng Việt để gõ phím tắt Normal mode)
+-- Danh sách filetype / buftype cần ép tắt tiếng Việt để phím tắt hoạt động an toàn
 local ignore_filetypes = {
   ["NvimTree"] = true,
   ["fzf"] = true,
@@ -25,63 +33,66 @@ local ignore_filetypes = {
   ["help"] = true,
 }
 
--- Hàm tắt bộ gõ đồng bộ (truyền list để bypass shell con, cực nhanh dưới 3ms)
+local function is_ignored_buffer(bufnr)
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return true
+  end
+  local ft = vim.bo[bufnr].filetype
+  local bt = vim.bo[bufnr].buftype
+  return ignore_filetypes[ft] or bt == "terminal" or bt == "nofile" or bt == "quickfix" or bt == "prompt"
+end
+
+-- Tắt bộ gõ đồng bộ (truyền list để bypass shell con, tốc độ < 1ms)
 local function fcitx_off()
   vim.fn.system({ fcitx_cmd, "-c" })
 end
 
--- Hàm bật bộ gõ
+-- Bật bộ gõ
 local function fcitx_on()
   vim.fn.system({ fcitx_cmd, "-o" })
 end
 
--- Hàm lấy trạng thái bộ gõ hiện tại (đồng bộ)
+-- Lấy trạng thái hiện tại (1: Tắt / English, 2: Bật / Vietnamese)
 local function fcitx_get_state()
   local output = vim.fn.system({ fcitx_cmd })
   return tonumber(output:sub(1, 1)) or 1
 end
 
--- Lấy trạng thái hệ thống ban đầu trước khi can thiệp
+-- Ghi nhận trạng thái hệ thống ban đầu khi khởi động Neovim
 external_system_state = fcitx_get_state()
 
--- Ép tắt bộ gõ về tiếng Anh ngay khi khởi động Neovim
+-- Ép về tiếng Anh cho Normal mode khi khởi động
 fcitx_off()
 
 local fcitx_group = vim.api.nvim_create_augroup("Fcitx5Native", { clear = true })
 
--- Đảm bảo tắt bộ gõ ngay khi Neovim vừa tải xong giao diện (VimEnter / UIEnter)
-vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter" }, {
-  group = fcitx_group,
-  callback = function()
-    fcitx_off()
-  end,
-})
-
--- 1. Trước khi rời Insert mode: Lưu trạng thái của buffer hiện tại
-vim.api.nvim_create_autocmd("InsertLeavePre", {
+-- 1. Khi thoát Insert mode (<Esc> hoặc <C-c>): Lưu trạng thái buffer và tắt IME
+vim.api.nvim_create_autocmd({ "InsertLeavePre", "InsertLeave" }, {
   group = fcitx_group,
   callback = function()
     local bufnr = vim.api.nvim_get_current_buf()
-    buffer_states[bufnr] = fcitx_get_state()
+    if not is_ignored_buffer(bufnr) then
+      buffer_states[bufnr] = fcitx_get_state()
+    end
+    fcitx_off()
   end,
 })
 
--- 2. Khi rời Insert mode hoặc chuyển về Normal mode: LUÔN ép tắt Fcitx5 vô điều kiện (chống kẹt preedit)
-vim.api.nvim_create_autocmd({ "InsertLeave", "ModeChanged" }, {
+-- 2. Đảm bảo Normal mode luôn ở tiếng Anh (chống kẹt preedit / motion sai)
+vim.api.nvim_create_autocmd("ModeChanged", {
   group = fcitx_group,
-  pattern = { "*", "*:n", "*:c" },
+  pattern = { "*:n", "*:c" },
   callback = function()
     fcitx_off()
   end,
 })
 
--- 3. Khi vào Insert mode: Khôi phục lại trạng thái cũ của đúng buffer đó
+-- 3. Khi vào Insert mode: Khôi phục đúng trạng thái của buffer hiện tại
 vim.api.nvim_create_autocmd("InsertEnter", {
   group = fcitx_group,
   callback = function()
     local bufnr = vim.api.nvim_get_current_buf()
-    local ft = vim.bo[bufnr].filetype
-    if ignore_filetypes[ft] then
+    if is_ignored_buffer(bufnr) then
       fcitx_off()
       return
     end
@@ -89,6 +100,8 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     local target_state = buffer_states[bufnr] or 1
     if target_state == 2 then
       fcitx_on()
+    else
+      fcitx_off()
     end
   end,
 })
@@ -98,35 +111,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   group = fcitx_group,
   callback = function()
     local bufnr = vim.api.nvim_get_current_buf()
-    local ft = vim.bo[bufnr].filetype
-    if ignore_filetypes[ft] then
-      fcitx_off()
-      return
-    end
-
     local mode = vim.api.nvim_get_mode().mode
-    if mode ~= "i" then
-      fcitx_off()
-    end
-  end,
-})
-
--- 5. Khi Neovim nhận lại focus (FocusGained):
-vim.api.nvim_create_autocmd("FocusGained", {
-  group = fcitx_group,
-  callback = function()
-    -- Ghi nhận trạng thái bên ngoài hệ thống trước khi Neovim can thiệp
-    external_system_state = fcitx_get_state()
-
-    local bufnr = vim.api.nvim_get_current_buf()
-    local ft = vim.bo[bufnr].filetype
-    if ignore_filetypes[ft] then
-      fcitx_off()
-      return
-    end
-
-    local mode = vim.api.nvim_get_mode().mode
-    if mode == "i" then
+    if mode == "i" and not is_ignored_buffer(bufnr) then
       local target_state = buffer_states[bufnr] or 1
       if target_state == 2 then
         fcitx_on()
@@ -139,11 +125,37 @@ vim.api.nvim_create_autocmd("FocusGained", {
   end,
 })
 
--- 6. Khi Neovim mất focus (FocusLost - chuyển sang tab khác / app khác):
--- Khôi phục lại đúng trạng thái bên ngoài trước đó của hệ thống
+-- 5. Khi Neovim nhận focus (FocusGained):
+vim.api.nvim_create_autocmd("FocusGained", {
+  group = fcitx_group,
+  callback = function()
+    -- Chỉ cập nhật trạng thái ngoài hệ thống nếu đã từng rời Neovim
+    -- (tránh đè trạng thái lúc khởi động vừa tắt IME xong)
+    if has_lost_focus then
+      external_system_state = fcitx_get_state()
+    end
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local mode = vim.api.nvim_get_mode().mode
+    if mode == "i" and not is_ignored_buffer(bufnr) then
+      local target_state = buffer_states[bufnr] or 1
+      if target_state == 2 then
+        fcitx_on()
+      else
+        fcitx_off()
+      end
+    else
+      fcitx_off()
+    end
+  end,
+})
+
+-- 6. Khi Neovim mất focus (FocusLost - chuyển tab terminal / cửa sổ khác):
+-- Khôi phục chính xác trạng thái bên ngoài hệ thống trước đó
 vim.api.nvim_create_autocmd("FocusLost", {
   group = fcitx_group,
   callback = function()
+    has_lost_focus = true
     if external_system_state == 2 then
       fcitx_on()
     else
@@ -152,7 +164,15 @@ vim.api.nvim_create_autocmd("FocusLost", {
   end,
 })
 
--- 7. Khi đóng Neovim: Khôi phục lại đúng trạng thái ban đầu của hệ thống
+-- 7. Thoát lệnh Command-line (: hoặc /): Đảm bảo về Normal mode sạch
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  group = fcitx_group,
+  callback = function()
+    fcitx_off()
+  end,
+})
+
+-- 8. Khi đóng Neovim: Khôi phục lại trạng thái ban đầu của hệ thống
 vim.api.nvim_create_autocmd("VimLeavePre", {
   group = fcitx_group,
   callback = function()
@@ -164,7 +184,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   end,
 })
 
--- 8. Phím tắt Esc ở Normal mode: Vừa tắt highlight tìm kiếm vừa ép xóa preedit & tắt Fcitx5
+-- 9. Phím tắt Esc ở Normal mode: Xóa highlight tìm kiếm và ép tắt IME dứt điểm
 vim.keymap.set("n", "<Esc>", function()
   fcitx_off()
   vim.cmd("nohlsearch")
