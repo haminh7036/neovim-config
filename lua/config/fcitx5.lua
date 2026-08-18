@@ -12,8 +12,8 @@ end
 -- Key: bufnr, Value: trạng thái (1: English, 2: Tiếng Việt)
 local buffer_states = {}
 
--- Trạng thái bộ gõ ban đầu của hệ thống trước khi mở Neovim
-local initial_system_state = 1
+-- Trạng thái bộ gõ bên ngoài hệ thống trước khi Neovim can thiệp
+local external_system_state = 1
 
 -- Danh sách các filetype đặc biệt cần bỏ qua (Luôn ép tắt tiếng Việt để gõ phím tắt Normal mode)
 local ignore_filetypes = {
@@ -42,7 +42,7 @@ local function fcitx_get_state()
 end
 
 -- Lấy trạng thái hệ thống ban đầu trước khi can thiệp
-initial_system_state = fcitx_get_state()
+external_system_state = fcitx_get_state()
 
 -- Ép tắt bộ gõ về tiếng Anh ngay khi khởi động Neovim
 fcitx_off()
@@ -115,20 +115,36 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("FocusGained", {
   group = fcitx_group,
   callback = function()
+    -- Ghi nhận trạng thái bên ngoài hệ thống trước khi Neovim can thiệp
+    external_system_state = fcitx_get_state()
+
+    local bufnr = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[bufnr].filetype
+    if ignore_filetypes[ft] then
+      fcitx_off()
+      return
+    end
+
     local mode = vim.api.nvim_get_mode().mode
-    if mode ~= "i" then
+    if mode == "i" then
+      local target_state = buffer_states[bufnr] or 1
+      if target_state == 2 then
+        fcitx_on()
+      else
+        fcitx_off()
+      end
+    else
       fcitx_off()
     end
   end,
 })
 
--- 6. Khi Neovim mất focus (FocusLost):
+-- 6. Khi Neovim mất focus (FocusLost - chuyển sang tab khác / app khác):
+-- Khôi phục lại đúng trạng thái bên ngoài trước đó của hệ thống
 vim.api.nvim_create_autocmd("FocusLost", {
   group = fcitx_group,
   callback = function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local target_state = buffer_states[bufnr] or 1
-    if target_state == 2 then
+    if external_system_state == 2 then
       fcitx_on()
     else
       fcitx_off()
@@ -136,11 +152,11 @@ vim.api.nvim_create_autocmd("FocusLost", {
   end,
 })
 
--- 7. Khi đóng Neovim: Khôi phục lại trạng thái bộ gõ ban đầu của hệ thống
+-- 7. Khi đóng Neovim: Khôi phục lại đúng trạng thái ban đầu của hệ thống
 vim.api.nvim_create_autocmd("VimLeavePre", {
   group = fcitx_group,
   callback = function()
-    if initial_system_state == 2 then
+    if external_system_state == 2 then
       fcitx_on()
     else
       fcitx_off()

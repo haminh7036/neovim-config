@@ -15,6 +15,3 @@ require("config.fcitx5")
 
 -- Thiết lập lazy.nvim & nạp plugin
 require("config.lazy")
-
--- Cấu hình bảng màu Matugen
-require("matugen").setup()

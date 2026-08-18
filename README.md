@@ -55,7 +55,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
     │   ├── options.lua  # Các tùy chọn thiết lập hệ thống (options)
     │   └── root.lua     # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
     └── plugins/
-        ├── colorscheme.lua      # Cấu hình màu sắc hệ thống (nvim-base16 & Matugen)
+        ├── base16.lua           # Cấu hình màu sắc hệ thống (base16-nvim & Matugen)
         ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
         ├── which-key.lua        # Nhắc phím tắt thông minh (Which-Key)
         ├── treesitter.lua       # Highlight cú pháp theo AST ngữ nghĩa
@@ -86,7 +86,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 *   **Không độ trễ**: Sử dụng Native Libuv spawn (`vim.fn.system` truyền list) gọi trực tiếp binary `fcitx5-remote` không qua shell con. Tắt tiếng Việt chỉ mất dưới **1ms** ngay khi bấm `<Esc>`.
 *   **Buffer-local**: Nhớ trạng thái bộ gõ của từng file riêng biệt. File này gõ tiếng Việt, file kia gõ tiếng Anh khi chuyển qua lại sẽ tự động chuyển đúng trạng thái.
 *   **Ignore Filetypes**: Tự động bỏ qua và ép tắt tiếng Việt ở các cửa sổ đặc biệt như `NvimTree`, `fzf`, `lazy`, `mason`... để gõ phím tắt Normal mode không bao giờ bị dính preedit.
-*   **Focus & System Sync**: Tự động trả lại bộ gõ tiếng Việt khi chuyển cửa sổ (Alt+Tab) ra ứng dụng khác và khôi phục bộ gõ gốc của hệ thống khi thoát Neovim.
+*   **Focus & System Sync**: Tự động ghi nhớ và khôi phục chính xác trạng thái bộ gõ của hệ thống khi chuyển cửa sổ / tab terminal (FocusGained/FocusLost) và khi thoát Neovim.
 
 ### 2. Native LSP (v0.12+) & Autocomplete
 *   **Không dùng API cũ**: Cấu hình sử dụng hoàn toàn cơ chế Native LSP hiện đại của Neovim (`vim.lsp.config` và `vim.lsp.enable`), loại bỏ hoàn toàn các framework cảnh báo deprecation cũ.
