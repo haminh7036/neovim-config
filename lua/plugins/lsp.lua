@@ -21,6 +21,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "Saghen/blink.cmp",
+      "b0o/SchemaStore.nvim",
     },
     event = { "BufReadPre", "BufNewFile" },
     cmd = { "LspInfo", "LspStart", "LspStop", "LspRestart" },
@@ -28,7 +29,8 @@ return {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
     },
     config = function()
-      
+      local has_schemastore, schemastore = pcall(require, "schemastore")
+
       -- Khai báo các LSP server tại đây.
       -- mason-lspconfig sẽ tự động cài đặt chúng.
       local servers = {
@@ -39,7 +41,25 @@ return {
             },
           },
         },
-        -- Đặt cấu hình các LSP server khác tại đây
+        jsonls = {
+          settings = {
+            json = {
+              schemas = has_schemastore and schemastore.json.schemas() or {},
+              validate = { enable = true },
+            },
+          },
+        },
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                enable = false,
+                url = "",
+              },
+              schemas = has_schemastore and schemastore.yaml.schemas() or {},
+            },
+          },
+        },
       }
 
       local mason_lspconfig = require("mason-lspconfig")
@@ -66,6 +86,7 @@ return {
       end
 
       vim.diagnostic.config({
+        virtual_text = false,
         float = { border = border },
         signs = {
           text = {

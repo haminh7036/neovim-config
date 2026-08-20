@@ -56,11 +56,14 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
     │   └── root.lua     # Cơ chế nhận diện root directory dự án (vim.fs.root)
     └── plugins/
         ├── base16.lua           # Color scheme base16-nvim và Matugen loader
+        ├── dial.lua             # Mở rộng tăng/giảm giá trị, boolean, case (dial.nvim)
+        ├── grug-far.lua         # Tìm kiếm và thay thế toàn dự án (grug-far.nvim)
         ├── nvim-tree.lua        # Trình quản lý cây thư mục (File explorer)
         ├── which-key.lua        # Hiển thị gợi ý phím tắt (Which-Key)
         ├── treesitter.lua       # Phân tích cú pháp theo AST (Syntax highlighting)
         ├── blink.lua            # Engine autocomplete viết bằng Rust (blink.cmp)
-        ├── lsp.lua              # Cấu hình Native LSP và quản lý LSP server qua Mason
+        ├── lsp.lua              # Cấu hình Native LSP, Mason & SchemaStore
+        ├── tiny-inline-diagnostic.lua # Hiển thị diagnostic inline (tiny-inline-diagnostic)
         ├── fzf.lua              # Tìm kiếm mờ (Fuzzy finder) file và văn bản
         ├── formatting.lua       # Tự động format mã nguồn khi lưu (Conform.nvim)
         ├── git.lua              # Git signs ở gutter và trình xem diff (Diffview)
@@ -88,19 +91,25 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 * **Loại trừ Filetypes**: Tự động tắt IME trên các buffer tiện ích (`NvimTree`, `fzf`, `lazy`, `mason`...) để tránh xung đột phím tắt ở Normal mode.
 * **Đồng bộ Focus**: Lưu và khôi phục trạng thái bộ gõ khi chuyển cửa sổ terminal (`FocusGained`/`FocusLost`) hoặc thoát editor.
 
-### 2. Native LSP & Code Completion
+### 2. Native LSP, SchemaStore & Completion
 * **Native LSP API**: Sử dụng hoàn toàn cơ chế `vim.lsp.config` và `vim.lsp.enable` của Neovim v0.12+, không phụ thuộc wrapper cũ.
+* **SchemaStore Integration**: Tự động nạp schema từ SchemaStore cho `jsonls` và `yamlls` (validate và autocomplete cho JSON Schema, GitHub Actions, Compose...).
 * **Engine Completion**: Sử dụng `blink.cmp` (Rust-based) cho tốc độ index và render danh sách gợi ý nhanh, tiêu tốn ít tài nguyên.
+* **Inline Diagnostics**: Tích hợp `tiny-inline-diagnostic.nvim` hiển thị chi tiết lỗi/cảnh báo ở cuối dòng gọn gàng, không làm xô lệch cấu trúc code.
 * **Quản lý Package**: Tích hợp Mason để cài đặt, cập nhật LSP server, linter và formatter tập trung.
 
-### 3. Đồng bộ giao diện (Matugen Sync)
+### 3. Tìm kiếm & Chỉnh sửa nâng cao
+* **Search & Replace (`grug-far.nvim`)**: Tìm kiếm và thay thế trực quan trên toàn bộ dự án với `ripgrep`, hỗ trợ xem trước diff và lọc theo đường dẫn.
+* **Tăng / Giảm thông minh (`dial.nvim`)**: Mở rộng `<C-a>` / `<C-x>` để toggle nhanh `true` / `false`, `&&` / `||`, `==` / `!=`, ngày tháng, semver và chuyển đổi naming convention (`camelCase` $\leftrightarrow$ `snake_case` $\leftrightarrow$ `PascalCase`).
+
+### 4. Đồng bộ giao diện (Matugen Sync)
 * Module `matugen.lua` bắt tín hiệu `SIGUSR1` từ daemon hệ thống. Khi hình nền hoặc palette màu hệ thống thay đổi, Neovim tự động nạp lại theme tương ứng trong thời gian thực.
 
-### 4. Quản lý Session & Editor Motion
+### 5. Quản lý Session & Editor Motion
 * **Session Management**: Tự động lưu buffer, layout cửa sổ và vị trí con trỏ theo thư mục dự án; cho phép khôi phục phiên làm việc trước đó.
 * **Motion & Text Objects**: Tích hợp `flash.nvim` để nhảy vị trí bằng nhãn 2 ký tự, `mini.ai` để thao tác nhanh với text objects (tham số hàm, closure, tag XML/HTML).
 
-### 5. Tự động nhận diện thư mục gốc (Project Root Detection)
+### 6. Tự động nhận diện thư mục gốc (Project Root Detection)
 * **Thuật toán tìm kiếm**: Sử dụng C-API `vim.fs.root` để quét ngược từ file hiện tại tới root pattern gần nhất (`composer.json`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`, `Makefile`, hoặc `.git`).
 * **Hỗ trợ Monorepo / Container**: Đảm bảo File Explorer và Fuzzy Finder bám đúng ngữ cảnh của source package khi làm việc trong sub-directory hoặc cấu trúc Docker.
 * **Đồng bộ File Explorer**: `nvim-tree` tự động cập nhật thư mục gốc hiển thị theo project root hiện hành.
@@ -140,7 +149,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + bl` | Đóng toàn bộ buffer nằm bên trái buffer hiện tại | Normal |
 | `Space + b + 1..9` | Chuyển trực tiếp tới buffer theo số thứ tự (ví dụ: `<leader>b1`) | Normal |
 
-### 3. Tìm kiếm (FZF-Lua)
+### 3. Tìm kiếm & Thay thế (FZF-Lua & Grug-Far)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Space + Space` | Tìm kiếm file trong toàn dự án | Normal |
@@ -151,6 +160,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Space + ft` | Bật / tắt Floating Terminal | Normal |
 | `Space + sg` | Tìm kiếm văn bản (Live Grep) | Normal |
 | `Space + sw` | Tìm kiếm từ khóa dưới vị trí con trỏ (Grep Word) | Normal |
+| `Space + sr` | Mở giao diện Search & Replace toàn dự án (`grug-far`) | Normal / Visual |
+| `Space + sR` | Mở Search & Replace trong file hiện tại (`grug-far`) | Normal |
 | `Space + ss` | Tìm kiếm symbol trong file hiện tại | Normal |
 | `Space + sh` | Tra cứu tài liệu trợ giúp (Help Tags) | Normal |
 | `Space + sk` | Tra cứu danh sách phím tắt | Normal |
@@ -170,6 +181,8 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `[d` / `]d` | Chuyển đến diagnostic trước đó / kế tiếp | Normal |
 | `gcc` | Bật / tắt comment dòng hiện tại | Normal |
 | `gc` | Bật / tắt comment vùng chọn | Visual |
+| `Ctrl + a` | Tăng số / toggle boolean (`true`/`false`) / cycle case (`dial`) | Normal / Visual |
+| `Ctrl + x` | Giảm số / toggle boolean / cycle case (`dial`) | Normal / Visual |
 | `ys` + motion + ký tự | Thêm cặp ký tự bao quanh (ví dụ: `ysiw"`) | Normal |
 | `cs` + cũ + mới | Đổi cặp ký tự bao quanh (ví dụ: `cs"'`) | Normal |
 | `ds` + ký tự | Xóa cặp ký tự bao quanh (ví dụ: `ds"`) | Normal |
@@ -217,4 +230,4 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Space + uh` | Bật / tắt gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
-| `Space + ud` | Bật / tắt thông báo lỗi inline (Diagnostic Virtual Text) | Normal |
+| `Space + ud` | Bật / tắt thông báo lỗi inline (Inline Diagnostics) | Normal |

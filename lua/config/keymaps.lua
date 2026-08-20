@@ -167,7 +167,12 @@ if vim.lsp.inlay_hint then
 end
 
 vim.keymap.set("n", "<leader>ud", function()
-  local current = vim.diagnostic.config().virtual_text
-  vim.diagnostic.config({ virtual_text = not current })
-  vim.notify("Diagnostic Virtual Text: " .. (not current and "ON" or "OFF"))
-end, { desc = "Toggle Diagnostic Virtual Text" })
+  local ok, tiny = pcall(require, "tiny-inline-diagnostic")
+  if ok then
+    tiny.toggle()
+  else
+    local current = vim.diagnostic.config().virtual_text
+    vim.diagnostic.config({ virtual_text = not current })
+    vim.notify("Diagnostic Virtual Text: " .. (not current and "ON" or "OFF"))
+  end
+end, { desc = "Toggle Inline Diagnostics" })
