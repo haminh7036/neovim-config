@@ -1,38 +1,38 @@
 # Neovim Configuration (v0.12+)
 
-Cấu hình Neovim hiệu năng cao, tối ưu cho lập trình viên hiện đại. Tự động đồng bộ màu sắc theo hệ thống (Matugen), hỗ trợ Native LSP thế hệ mới, Autocomplete siêu tốc (blink.cmp) và tích hợp bộ gõ tiếng Việt Fcitx5 thông minh không độ trễ.
+Bộ cấu hình Neovim tinh gọn, tập trung vào hiệu năng và trải nghiệm lập trình:
+* **Native LSP & Completion**: Tận dụng API Native LSP của Neovim (v0.12+) kết hợp `blink.cmp`.
+* **Bộ gõ Fcitx5**: Tích hợp điều khiển IME tiếng Việt trực tiếp qua Libuv process, tự động chuyển đổi theo chế độ và buffer.
+* **Dynamic Theming**: Đồng bộ bảng màu hệ thống qua Matugen (`SIGUSR1`).
+* **Root Detection**: Tự động nhận diện thư mục gốc của dự án (`vim.fs.root`).
 
 ---
 
 ## Yêu cầu hệ thống (Prerequisites)
 
-Để cấu hình hoạt động hoàn hảo nhất, hệ thống cần cài đặt sẵn các công cụ sau:
-
-*   **Neovim >= 0.11.0** (Khuyên dùng **v0.12.x** để hỗ trợ Native LSP config).
-*   **Git** & **Ripgrep** (Cần thiết cho `fzf-lua` tìm kiếm file và nội dung nhanh).
-*   **Fcitx5** & **fcitx5-remote** (Dùng cho tính năng tự động chuyển đổi bộ gõ).
-*   **Matugen** (Để tự động đồng bộ màu sắc động theo hệ thống).
-*   **LazyGit** (Để sử dụng trình quản lý Git UI tích hợp).
+* **Neovim >= 0.11.0** (khuyến nghị **v0.12+** cho Native LSP API).
+* **Git** & **ripgrep** (cần cho tìm kiếm file và nội dung với `fzf-lua`).
+* **Fcitx5** & **fcitx5-remote** (quản lý trạng thái bộ gõ tiếng Việt).
+* **Matugen** (tùy chọn: đồng bộ theme theo hình nền hệ thống).
+* **LazyGit** (tùy chọn: giao diện Git TUI).
 
 ---
 
-## Hướng dẫn cài đặt (Installation)
-
-Chạy các lệnh sau trong terminal để cài đặt cấu hình:
+## Cài đặt (Installation)
 
 ```bash
-# 1. Sao lưu cấu hình cũ nếu có
+# 1. Sao lưu cấu hình cũ (nếu có)
 mv ~/.config/nvim ~/.config/nvim.bak
 mv ~/.local/share/nvim ~/.local/share/nvim.bak
 mv ~/.state/nvim ~/.state/nvim.bak
 mv ~/.cache/nvim ~/.cache/nvim.bak
 
-# 2. Clone cấu hình mới về máy
+# 2. Clone repository vào thư mục config
 git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 ```
 
 > [!NOTE]
-> Khi mở Neovim lần đầu tiên, trình quản lý `lazy.nvim` sẽ tự động tải xuống và cài đặt tất cả các plugin cần thiết.
+> Trong lần khởi động đầu tiên, `lazy.nvim` sẽ tự động tải và cài đặt các plugin được khai báo.
 
 ---
 
@@ -40,194 +40,181 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 
 ```text
 ~/.config/nvim/
-├── .stylua.toml        # Cấu hình định dạng code Lua (2 spaces)
-├── init.lua            # Điểm khởi chạy chính
-├── lazy-lock.json      # File khóa phiên bản của các plugin
+├── .stylua.toml        # Quy chuẩn định dạng code Lua (indent 2 spaces)
+├── init.lua            # Entry point khởi tạo cấu hình
+├── lazy-lock.json      # File lock quản lý phiên bản plugin
 ├── LICENSE             # Giấy phép mã nguồn
-├── README.md           # Tài liệu hướng dẫn sử dụng này
+├── README.md           # Tài liệu hướng dẫn sử dụng
 └── lua/
-    ├── matugen.lua     # Đồng bộ màu sắc hệ thống Matugen
+    ├── matugen.lua     # Module xử lý tín hiệu đổi theme từ Matugen
     ├── config/
-    │   ├── autocmds.lua # Các autocmd tiện ích native (Yank highlight, restore cursor...)
-    │   ├── fcitx5.lua   # Quản lý bộ gõ tiếng Việt Fcitx5 Native Libuv
-    │   ├── keymaps.lua  # Cấu hình phím tắt chung & LazyGit popup native
-    │   ├── lazy.lua     # Thiết lập khởi chạy lazy.nvim
-    │   ├── options.lua  # Các tùy chọn thiết lập hệ thống (options)
-    │   └── root.lua     # Tự nhận diện & chuyển về thư mục gốc dự án (Native vim.fs.root)
+    │   ├── autocmds.lua # Các autocommand hệ thống (Yank highlight, restore cursor...)
+    │   ├── fcitx5.lua   # Điều khiển Fcitx5 qua Libuv process
+    │   ├── keymaps.lua  # Phím tắt chung và floating terminal / LazyGit
+    │   ├── lazy.lua     # Khởi tạo và thiết lập lazy.nvim
+    │   ├── options.lua  # Thiết lập tùy chọn hệ thống (Vim options)
+    │   └── root.lua     # Cơ chế nhận diện root directory dự án (vim.fs.root)
     └── plugins/
-        ├── base16.lua           # Cấu hình màu sắc hệ thống (base16-nvim & Matugen)
-        ├── nvim-tree.lua        # Cấu hình File Explorer (cây thư mục)
-        ├── which-key.lua        # Nhắc phím tắt thông minh (Which-Key)
-        ├── treesitter.lua       # Highlight cú pháp theo AST ngữ nghĩa
-        ├── blink.lua            # Autocomplete thế hệ mới viết bằng Rust
-        ├── lsp.lua              # Native LSP config & Mason package manager
-        ├── fzf.lua              # Tìm kiếm file/code siêu nhanh bằng FZF
-        ├── formatting.lua       # Cấu hình tự động format code khi lưu
-        ├── git.lua              # Gitsigns hiển thị thay đổi trực tiếp ở lề & Diffview
-        ├── image.lua            # Hiển thị xem trước hình ảnh (Kitty Graphics Protocol)
-        ├── ui.lua               # Thanh Statusline (lualine) & Tabline (bufferline)
-        ├── session.lua          # Tự động lưu và khôi phục phiên làm việc
-        ├── neoscroll.lua        # Hiệu ứng cuộn màn hình mượt mà
-        ├── indent-blankline.lua # Hiển thị đường kẻ thụt lề (indent guides)
-        ├── nvim-surround.lua    # Thêm/xóa/đổi cặp ký tự bao quanh (ys/ds/cs)
-        ├── flash.lua            # Nhảy nhanh tới vị trí bất kỳ bằng nhãn ký tự
-        ├── lazydev.lua          # Autocomplete Lua API của Neovim khi sửa config
-        ├── todo-comments.lua    # Highlight & tìm comment TODO/FIX/HACK
-        ├── trouble.lua          # Panel diagnostics / quickfix / references
-        ├── mini-ai.lua          # Mở rộng text object a/i (tham số, lời gọi hàm)
+        ├── base16.lua           # Color scheme base16-nvim và Matugen loader
+        ├── nvim-tree.lua        # Trình quản lý cây thư mục (File explorer)
+        ├── which-key.lua        # Hiển thị gợi ý phím tắt (Which-Key)
+        ├── treesitter.lua       # Phân tích cú pháp theo AST (Syntax highlighting)
+        ├── blink.lua            # Engine autocomplete viết bằng Rust (blink.cmp)
+        ├── lsp.lua              # Cấu hình Native LSP và quản lý LSP server qua Mason
+        ├── fzf.lua              # Tìm kiếm mờ (Fuzzy finder) file và văn bản
+        ├── formatting.lua       # Tự động format mã nguồn khi lưu (Conform.nvim)
+        ├── git.lua              # Git signs ở gutter và trình xem diff (Diffview)
+        ├── image.lua            # Hiển thị hình ảnh (Kitty Graphics Protocol)
+        ├── ui.lua               # Giao diện Statusline (lualine) & Tabline (bufferline)
+        ├── session.lua          # Lưu và khôi phục session làm việc (Persistence)
+        ├── neoscroll.lua        # Hiệu ứng cuộn mượt (Smooth scrolling)
+        ├── indent-blankline.lua # Hiển thị đường gióng thụt đầu dòng (Indent guides)
+        ├── nvim-surround.lua    # Thao tác với cặp ký tự bao quanh (Surround)
+        ├── flash.lua            # Điều hướng nhanh tới vị trí hiển thị (Motion)
+        ├── lazydev.lua          # Hỗ trợ autocomplete cho Neovim Lua API
+        ├── todo-comments.lua    # Highlight và tìm kiếm comment TODO/FIX/NOTE
+        ├── trouble.lua          # Danh sách hiển thị diagnostics, quickfix, references
+        ├── mini-ai.lua          # Mở rộng text objects (tham số, hàm, block)
         └── utilities.lua        # Tự động đóng ngoặc (nvim-autopairs)
 ```
 
 ---
 
-## Các nhóm tính năng nổi bật (Key Features)
+## Tính năng chính (Key Features)
 
-### 1. Bộ gõ Tiếng Việt Fcitx5 Native
-*   **Không độ trễ**: Sử dụng Native Libuv spawn (`vim.fn.system` truyền list) gọi trực tiếp binary `fcitx5-remote` không qua shell con. Tắt tiếng Việt chỉ mất dưới **1ms** ngay khi bấm `<Esc>`.
-*   **Buffer-local**: Nhớ trạng thái bộ gõ của từng file riêng biệt. File này gõ tiếng Việt, file kia gõ tiếng Anh khi chuyển qua lại sẽ tự động chuyển đúng trạng thái.
-*   **Ignore Filetypes**: Tự động bỏ qua và ép tắt tiếng Việt ở các cửa sổ đặc biệt như `NvimTree`, `fzf`, `lazy`, `mason`... để gõ phím tắt Normal mode không bao giờ bị dính preedit.
-*   **Focus & System Sync**: Tự động ghi nhớ và khôi phục chính xác trạng thái bộ gõ của hệ thống khi chuyển cửa sổ / tab terminal (FocusGained/FocusLost) và khi thoát Neovim.
+### 1. Tích hợp bộ gõ Fcitx5
+* **Hiệu năng cao**: Gọi trực tiếp binary `fcitx5-remote` thông qua API Libuv process (`vim.fn.system` dạng list arguments), không fork shell con. Thời gian phản hồi < 1ms khi rời Insert mode (`<Esc>`).
+* **Buffer-local State**: Lưu trạng thái IME độc lập theo từng buffer; tự động khôi phục đúng chế độ khi chuyển đổi qua lại giữa các file.
+* **Loại trừ Filetypes**: Tự động tắt IME trên các buffer tiện ích (`NvimTree`, `fzf`, `lazy`, `mason`...) để tránh xung đột phím tắt ở Normal mode.
+* **Đồng bộ Focus**: Lưu và khôi phục trạng thái bộ gõ khi chuyển cửa sổ terminal (`FocusGained`/`FocusLost`) hoặc thoát editor.
 
-### 2. Native LSP (v0.12+) & Autocomplete
-*   **Không dùng API cũ**: Cấu hình sử dụng hoàn toàn cơ chế Native LSP hiện đại của Neovim (`vim.lsp.config` và `vim.lsp.enable`), loại bỏ hoàn toàn các framework cảnh báo deprecation cũ.
-*   **Autocomplete siêu tốc**: Sử dụng `blink.cmp` viết bằng Rust, đem lại tốc độ gợi ý code vượt trội và mượt mà hơn hẳn so với `nvim-cmp`.
-*   **Mason integration**: Quản lý và tự động tải các LSP servers một cách tập trung và dễ dàng thông qua giao diện Mason.
+### 2. Native LSP & Code Completion
+* **Native LSP API**: Sử dụng hoàn toàn cơ chế `vim.lsp.config` và `vim.lsp.enable` của Neovim v0.12+, không phụ thuộc wrapper cũ.
+* **Engine Completion**: Sử dụng `blink.cmp` (Rust-based) cho tốc độ index và render danh sách gợi ý nhanh, tiêu tốn ít tài nguyên.
+* **Quản lý Package**: Tích hợp Mason để cài đặt, cập nhật LSP server, linter và formatter tập trung.
 
-### 3. Đồng bộ màu sắc động (Matugen Sync)
-*   Sử dụng module `matugen.lua` để lắng nghe tín hiệu hệ thống `SIGUSR1` từ daemon hình nền. Khi hình nền desktop thay đổi, giao diện Neovim sẽ tự động cập nhật bảng màu (color scheme) hài hòa theo ảnh nền thời gian thực.
+### 3. Đồng bộ giao diện (Matugen Sync)
+* Module `matugen.lua` bắt tín hiệu `SIGUSR1` từ daemon hệ thống. Khi hình nền hoặc palette màu hệ thống thay đổi, Neovim tự động nạp lại theme tương ứng trong thời gian thực.
 
-### 4. Quản lý phiên làm việc & Trải nghiệm cuộn
-*   **Persistence**: Tự động lưu phiên làm việc (các tab đang mở, vị trí con trỏ). Có thể khôi phục phiên làm việc trước đó hoặc phiên của thư mục hiện tại bất cứ lúc nào.
-*   **Neoscroll**: Đem lại trải nghiệm cuộn màn hình (scroll) mượt mà bằng các chuyển động animation tự nhiên.
+### 4. Quản lý Session & Editor Motion
+* **Session Management**: Tự động lưu buffer, layout cửa sổ và vị trí con trỏ theo thư mục dự án; cho phép khôi phục phiên làm việc trước đó.
+* **Motion & Text Objects**: Tích hợp `flash.nvim` để nhảy vị trí bằng nhãn 2 ký tự, `mini.ai` để thao tác nhanh với text objects (tham số hàm, closure, tag XML/HTML).
 
-### 5. Tăng tốc di chuyển & chẩn đoán (LazyVim-inspired)
-*   **Flash**: Nhấn `s` + 2 ký tự để hiện nhãn và nhảy tới bất kỳ vị trí nào trên màn hình, nhanh hơn nhiều so với tìm kiếm tuần tự.
-*   **Trouble**: Gom toàn bộ lỗi LSP / quickfix / references vào một panel gọn, điều hướng nhanh giữa các mục.
-*   **Todo Comments**: Tự động tô sáng và cho tìm nhanh các ghi chú `TODO`, `FIX`, `HACK`, `NOTE` trong dự án.
-*   **Mini.ai**: Mở rộng text object `a`/`i` để thao tác theo cấu trúc — chọn tham số, lời gọi hàm, cặp ngoặc/nháy/tag một cách thông minh.
-*   **LazyDev**: Bổ sung autocomplete và type-check cho Lua API của Neovim, cực tiện khi chỉnh sửa chính file cấu hình này.
-
-### 6. Bộ tùy chọn editor tinh chỉnh (Options)
-*   **Thụt lề nhất quán**: Mặc định 2 space (`expandtab`, `shiftwidth=2`), tự thụt lề theo cú pháp code.
-*   **Tìm kiếm thông minh**: `smartcase` (chỉ phân biệt hoa/thường khi query có chữ hoa) và xem trước kết quả `:%s/` ngay khi gõ.
-*   **Undo bền vững**: `undofile` lưu lịch sử undo ra đĩa — mở lại file ngày hôm sau vẫn hoàn tác được.
-*   **Giao diện gọn**: Một statusline toàn cục (`laststatus=3`), cột dấu cố định tránh giật layout, luôn chừa 4 dòng đệm quanh con trỏ.
-
-### 7. Tự động nhận diện thư mục gốc dự án (Native Project Root)
-*   **Đa ngôn ngữ**: Tận dụng hàm C-API `vim.fs.root` native của Neovim để tự động leo ngược tìm file mốc gần nhất (`composer.json`/`artisan`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`/`Makefile`... hoặc `.git`) và chuyển thư mục làm việc về đúng gốc codebase tức thì không độ trễ.
-*   **Hợp dự án Docker**: Khi mã nguồn nằm trong thư mục con (ví dụ `laravel/`, `src/`) của một dự án Docker, chỉ cần mở một file bên trong là File Explorer và tìm kiếm FZF tự bám đúng gốc codebase thay vì thư mục Docker bên ngoài.
-*   **Đồng bộ Explorer**: `nvim-tree` tự cập nhật gốc cây thư mục theo thư mục làm việc, luôn hiển thị đúng phạm vi dự án hiện tại.
+### 5. Tự động nhận diện thư mục gốc (Project Root Detection)
+* **Thuật toán tìm kiếm**: Sử dụng C-API `vim.fs.root` để quét ngược từ file hiện tại tới root pattern gần nhất (`composer.json`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`, `Makefile`, hoặc `.git`).
+* **Hỗ trợ Monorepo / Container**: Đảm bảo File Explorer và Fuzzy Finder bám đúng ngữ cảnh của source package khi làm việc trong sub-directory hoặc cấu trúc Docker.
+* **Đồng bộ File Explorer**: `nvim-tree` tự động cập nhật thư mục gốc hiển thị theo project root hiện hành.
 
 ---
 
 ## Bảng phím tắt (Keymaps Guide)
 
-### 1. Di chuyển, Điều hướng split & Thao tác chung
+### 1. Điều hướng cửa sổ & Thao tác chung
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Ctrl + h / j / k / l` | Di chuyển sang cửa sổ Trái / Dưới / Trên / Phải | Normal |
-| `Ctrl + Phím mũi tên` | Di chuyển nhanh giữa các cửa sổ split tương ứng | Normal |
-| `Alt + j` | Đẩy dòng / vùng chọn đang bôi đen xuống dưới | Normal / Insert / Visual |
-| `Alt + k` | Đẩy dòng / vùng chọn đang bôi đen lên trên | Normal / Insert / Visual |
-| `Alt + Phím mũi tên Trái` | Nhảy lùi con trỏ về vị trí trước đó (VSCode style) | Normal |
-| `Alt + Phím mũi tên Phải` | Nhảy tiến con trỏ về vị trí tiếp theo (VSCode style) | Normal |
+| `Ctrl + h / j / k / l` | Di chuyển focus sang cửa sổ Trái / Dưới / Trên / Phải | Normal |
+| `Ctrl + Phím mũi tên` | Điều hướng nhanh giữa các split window | Normal |
+| `Alt + j` | Di chuyển dòng / khối code được chọn xuống dưới | Normal / Insert / Visual |
+| `Alt + k` | Di chuyển dòng / khối code được chọn lên trên | Normal / Insert / Visual |
+| `Alt + Phím mũi tên Trái` | Nhảy lùi vị trí con trỏ trong jumplist | Normal |
+| `Alt + Phím mũi tên Phải` | Nhảy tiến vị trí con trỏ trong jumplist | Normal |
 | `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
-| `Ctrl + /` | Bật/tắt Terminal nổi nhanh (Native Floating Terminal) | Normal / Terminal |
-| `Ctrl + d` / `Ctrl + u` | Cuộn nửa trang và luôn giữ con trỏ căn giữa màn hình | Normal |
-| `n` / `N` | Nhảy kết quả tìm kiếm tiếp theo/trước đó và căn giữa màn hình | Normal |
-| `<` / `>` | Thụt lề sang trái/phải và giữ nguyên vùng chọn (Visual continuous indent) | Visual |
-| `]q` / `[q` | Di chuyển tới mục Quickfix List tiếp theo / trước đó | Normal |
-| `Space + ?` | Mở bảng tra cứu toàn bộ phím tắt (Which-Key) | Normal |
+| `Ctrl + /` | Bật / tắt Floating Terminal | Normal / Terminal |
+| `Ctrl + d` / `Ctrl + u` | Cuộn nửa trang và căn giữa con trỏ | Normal |
+| `n` / `N` | Di chuyển đến kết quả tìm kiếm kế tiếp / trước đó (căn giữa) | Normal |
+| `<` / `>` | Thụt lề trái / phải (giữ nguyên vùng chọn trong Visual mode) | Visual |
+| `]q` / `[q` | Chuyển đến mục Quickfix List kế tiếp / trước đó | Normal |
+| `Space + ?` | Mở bảng tra cứu phím tắt (Which-Key) | Normal |
 
-### 2. Quản lý Buffers (Tab đang mở)
+### 2. Quản lý Buffer
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Tab` hoặc `Shift + l` hoặc `]b` | Chuyển sang buffer liền sau (Next Buffer) | Normal |
-| `Shift + Tab` hoặc `Shift + h` hoặc `[b` | Chuyển sang buffer liền trước (Prev Buffer) | Normal |
-| `Space + ,` | Chuyển nhanh giữa các buffer qua FZF (LazyVim style) | Normal |
+| `Tab` / `Shift + l` / `]b` | Chuyển đến buffer kế tiếp | Normal |
+| `Shift + Tab` / `Shift + h` / `[b` | Chuyển đến buffer trước đó | Normal |
+| `Space + ,` | Chuyển đổi nhanh buffer qua FZF | Normal |
 | `Space + bd` | Đóng buffer hiện tại | Normal |
-| `Space + bo` | Đóng toàn bộ các buffer khác (Close Other Buffers) | Normal |
+| `Space + bo` | Đóng tất cả các buffer khác | Normal |
 | `Space + bp` | Ghim / Bỏ ghim buffer hiện tại (Toggle Pin) | Normal |
-| `Space + bP` | Đóng toàn bộ các buffer không được ghim | Normal |
-| `Space + br` | Đóng toàn bộ các buffer nằm bên phải buffer hiện tại | Normal |
-| `Space + bl` | Đóng toàn bộ các buffer nằm bên trái buffer hiện tại | Normal |
-| `Space + b + 1..9` | Nhảy trực tiếp tới Buffer theo số thứ tự (vd: `<leader>b1`) | Normal |
+| `Space + bP` | Đóng toàn bộ buffer không được ghim | Normal |
+| `Space + br` | Đóng toàn bộ buffer nằm bên phải buffer hiện tại | Normal |
+| `Space + bl` | Đóng toàn bộ buffer nằm bên trái buffer hiện tại | Normal |
+| `Space + b + 1..9` | Chuyển trực tiếp tới buffer theo số thứ tự (ví dụ: `<leader>b1`) | Normal |
 
-### 3. Tìm kiếm nhanh (FZF-Lua)
+### 3. Tìm kiếm (FZF-Lua)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Space + Space` | Tìm kiếm File nhanh trong toàn dự án (LazyVim style) | Normal |
-| `Space + /` | Tìm kiếm từ khóa (Live Grep) trong dự án | Normal |
-| `Space + ff` | Tìm kiếm File trong thư mục dự án | Normal |
-| `Space + fr` | Danh sách các file mở gần đây (Recent Files) | Normal |
-| `Space + fb` | Danh sách buffer đang hoạt động | Normal |
-| `Space + ft` | Bật/tắt Terminal nổi (Native Floating Terminal) | Normal |
-| `Space + sg` | Tìm kiếm từ khóa (Live Grep) | Normal |
-| `Space + sw` | Tìm kiếm từ dưới con trỏ (Grep Word) | Normal |
-| `Space + ss` | Tìm kiếm các ký hiệu (symbols) trong file hiện tại | Normal |
-| `Space + sh` | Tìm kiếm trong tài liệu trợ giúp (Help Tags) | Normal |
-| `Space + sk` | Xem danh sách toàn bộ phím tắt của Neovim | Normal |
+| `Space + Space` | Tìm kiếm file trong toàn dự án | Normal |
+| `Space + /` | Tìm kiếm nội dung văn bản (Live Grep) trong dự án | Normal |
+| `Space + ff` | Tìm kiếm file theo thư mục làm việc | Normal |
+| `Space + fr` | Mở danh sách file gần đây (Recent Files) | Normal |
+| `Space + fb` | Danh sách buffer đang mở | Normal |
+| `Space + ft` | Bật / tắt Floating Terminal | Normal |
+| `Space + sg` | Tìm kiếm văn bản (Live Grep) | Normal |
+| `Space + sw` | Tìm kiếm từ khóa dưới vị trí con trỏ (Grep Word) | Normal |
+| `Space + ss` | Tìm kiếm symbol trong file hiện tại | Normal |
+| `Space + sh` | Tra cứu tài liệu trợ giúp (Help Tags) | Normal |
+| `Space + sk` | Tra cứu danh sách phím tắt | Normal |
 
-### 4. Lập trình & LSP
+### 4. LSP & Chỉnh sửa mã nguồn
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `gd` | Đi tới định nghĩa hàm/biến (Go to Definition) | Normal |
-| `gD` | Đi tới khai báo (Go to Declaration) | Normal |
-| `gi` | Đi tới phần triển khai (Go to Implementation) | Normal |
-| `gr` | Liệt kê tất cả các vị trí tham chiếu (References) | Normal |
-| `K` | Xem tài liệu nhanh của ký hiệu dưới con trỏ (Hover) | Normal |
-| `Space + cr` | Đổi tên biến/hàm hàng loạt (Rename) | Normal |
-| `Space + ca` | Xem các hành động sửa lỗi nhanh (Code Action) | Normal |
-| `Space + cd` | Xem thông tin lỗi chi tiết của dòng hiện tại (Line Diagnostics) | Normal |
-| `Space + cf` | Định dạng lại code của file hiện tại (Format) | Normal |
-| `[d` / `]d` | Di chuyển đến lỗi Diagnostic trước đó / tiếp theo | Normal |
-| `gcc` | Bật/tắt comment dòng hiện tại | Normal |
-| `gc` | Bật/tắt comment phần code đang bôi đen | Visual |
-| `ys` + vùng + ký tự | Bọc vùng chọn bằng cặp ký tự, vd `ysiw"` (Surround) | Normal |
-| `cs` + cũ + mới | Đổi cặp ký tự bao quanh, vd `cs"'` (Surround) | Normal |
-| `ds` + ký tự | Xóa cặp ký tự bao quanh, vd `ds"` (Surround) | Normal |
-| `cia` / `daa` | Sửa / xóa một tham số trong lời gọi hàm (mini.ai) | Normal |
-| `cif` / `daf` | Sửa / xóa nội dung một lời gọi hàm (mini.ai) | Normal |
-| `cit` / `dat` | Thao tác trong / cả cặp thẻ tag (mini.ai) | Normal |
+| `gd` | Nhảy đến định nghĩa (Go to Definition) | Normal |
+| `gD` | Nhảy đến khai báo (Go to Declaration) | Normal |
+| `gi` | Nhảy đến phần triển khai (Go to Implementation) | Normal |
+| `gr` | Liệt kê danh sách tham chiếu (References) | Normal |
+| `K` | Xem tài liệu hover của symbol dưới con trỏ | Normal |
+| `Space + cr` | Đổi tên symbol trên toàn workspace (Rename) | Normal |
+| `Space + ca` | Danh sách thao tác code nhanh (Code Action) | Normal |
+| `Space + cd` | Hiển thị chi tiết diagnostic tại dòng hiện tại | Normal |
+| `Space + cf` | Format mã nguồn file hiện tại | Normal |
+| `[d` / `]d` | Chuyển đến diagnostic trước đó / kế tiếp | Normal |
+| `gcc` | Bật / tắt comment dòng hiện tại | Normal |
+| `gc` | Bật / tắt comment vùng chọn | Visual |
+| `ys` + motion + ký tự | Thêm cặp ký tự bao quanh (ví dụ: `ysiw"`) | Normal |
+| `cs` + cũ + mới | Đổi cặp ký tự bao quanh (ví dụ: `cs"'`) | Normal |
+| `ds` + ký tự | Xóa cặp ký tự bao quanh (ví dụ: `ds"`) | Normal |
+| `cia` / `daa` | Thay đổi / xóa tham số hàm (`mini.ai`) | Normal |
+| `cif` / `daf` | Thay đổi / xóa thân hàm (`mini.ai`) | Normal |
+| `cit` / `dat` | Thao tác bên trong / toàn bộ cặp thẻ tag (`mini.ai`) | Normal |
 
-### 5. Phiên làm việc & Git UI
+### 5. Git & Session
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Space + e` | Bật/tắt cây thư mục File Explorer (`nvim-tree`) | Normal |
-| `Space + gg` | Mở giao diện quản lý Git trực quan (`lazygit` floating window) | Normal |
-| `]c` / `[c` | Di chuyển đến thay đổi Git Hunk tiếp theo / trước đó | Normal |
-| `Space + gp` | Xem trước (Preview) thay đổi của Git Hunk tại con trỏ | Normal |
-| `Space + gb` | Xem Git Blame chi tiết của dòng hiện tại | Normal |
-| `Space + gs` | Stage (đánh dấu lưu) Git Hunk hiện tại | Normal |
-| `Space + gr` | Hoàn tác (Reset) thay đổi của Git Hunk hiện tại | Normal |
-| `Space + gD` | Mở giao diện Diffview xem thay đổi toàn bộ dự án | Normal |
-| `Space + gh` | Xem lịch sử commit của file hiện tại (`DiffviewFileHistory`) | Normal |
-| `Space + qs` | Khôi phục lại phiên làm việc của thư mục hiện tại | Normal |
-| `Space + ql` | Khôi phục phiên làm việc cuối cùng trước đó | Normal |
-| `Space + qd` | Đặt trạng thái không lưu phiên làm việc hiện tại | Normal |
+| `Space + e` | Bật / tắt File Explorer (`nvim-tree`) | Normal |
+| `Space + gg` | Mở LazyGit floating window | Normal |
+| `]c` / `[c` | Di chuyển đến Git Hunk kế tiếp / trước đó | Normal |
+| `Space + gp` | Xem trước nội dung Git Hunk (Preview) | Normal |
+| `Space + gb` | Xem thông tin Git Blame của dòng hiện tại | Normal |
+| `Space + gs` | Stage / Unstage Git Hunk tại vị trí con trỏ | Normal |
+| `Space + gr` | Revert (Reset) Git Hunk tại vị trí con trỏ | Normal |
+| `Space + gD` | Mở Diffview toàn bộ dự án | Normal |
+| `Space + gh` | Xem lịch sử commit của file (`DiffviewFileHistory`) | Normal |
+| `Space + qs` | Khôi phục session của thư mục hiện tại | Normal |
+| `Space + ql` | Khôi phục session gần nhất | Normal |
+| `Space + qd` | Đóng phiên làm việc mà không lưu session | Normal |
 
-### 6. Nhảy nhanh trên màn hình (Flash)
+### 6. Điều hướng nhanh (Flash Motion)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `s` + 2 ký tự | Hiện nhãn và nhảy tới vị trí bất kỳ (Flash) | Normal / Visual / Operator |
-| `S` | Nhảy tới theo node cú pháp Treesitter | Normal / Operator |
-| `r` | Flash từ xa khi đang thao tác (Remote Flash) | Operator |
-| `R` | Tìm và mở rộng lựa chọn theo Treesitter | Operator / Visual |
+| `s` + 2 ký tự | Hiển thị nhãn và nhảy trực tiếp đến vị trí đích (Flash) | Normal / Visual / Operator |
+| `S` | Nhảy đến node cú pháp Treesitter | Normal / Operator |
+| `r` | Remote Flash trong khi thực thi operator | Operator |
+| `R` | Mở rộng vùng chọn theo AST Treesitter | Operator / Visual |
 
-### 7. Chẩn đoán, Todo & Trouble
+### 7. Diagnostics, Tasks & Trouble
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `]t` / `[t` | Nhảy tới comment Todo tiếp theo / trước đó | Normal |
-| `Space + st` | Tìm kiếm toàn bộ comment Todo qua FZF | Normal |
-| `Space + xt` | Mở danh sách Todo trong panel Trouble | Normal |
+| `]t` / `[t` | Chuyển đến comment TODO kế tiếp / trước đó | Normal |
+| `Space + st` | Tìm kiếm comment TODO qua FZF | Normal |
+| `Space + xt` | Mở danh sách TODO trong panel Trouble | Normal |
 | `Space + xx` | Mở toàn bộ Diagnostics trong Trouble | Normal |
 | `Space + xX` | Mở Diagnostics của riêng buffer hiện tại | Normal |
-| `Space + cs` | Xem cây Symbols của file trong Trouble | Normal |
+| `Space + cs` | Mở cây Symbols trong Trouble | Normal |
 | `Space + xl` | Mở Location List trong Trouble | Normal |
 | `Space + xq` | Mở Quickfix List trong Trouble | Normal |
 
-### 8. Bật/tắt Giao diện (UI Toggles)
+### 8. Tùy chọn hiển thị (UI Toggles)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
-| `Space + uh` | Bật/tắt hiển thị gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
-| `Space + ud` | Bật/tắt dòng chữ báo lỗi trên code (Diagnostic Virtual Text) | Normal |
+| `Space + uh` | Bật / tắt gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
+| `Space + ud` | Bật / tắt thông báo lỗi inline (Diagnostic Virtual Text) | Normal |
