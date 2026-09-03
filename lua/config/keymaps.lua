@@ -81,6 +81,7 @@ local function open_lazygit()
       if vim.api.nvim_buf_is_valid(buf) then
         vim.api.nvim_buf_delete(buf, { force = true })
       end
+      vim.cmd("checktime")
     end,
   })
   vim.cmd("startinsert")

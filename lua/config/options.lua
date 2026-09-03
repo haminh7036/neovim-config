@@ -6,6 +6,7 @@ opt.number = true -- Hiện số dòng
 opt.relativenumber = true -- Số dòng tương đối (dễ nhảy jk)
 opt.cursorline = true -- Tô sáng dòng đang đứng
 opt.confirm = true -- Hỏi lưu thay vì báo lỗi khi thoát buffer chưa lưu
+opt.autoread = true -- Tự động đọc lại file khi thay đổi bên ngoài Neovim
 
 -- Ẩn dấu ~ ở các dòng trống cuối buffer
 opt.fillchars = { eob = " " }
