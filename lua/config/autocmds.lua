@@ -81,3 +81,33 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   end,
 })
 
+-- 7. Thông báo khi buffer được reload ngầm từ ổ đĩa
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  group = augroup("file_reloaded_notify"),
+  callback = function(event)
+    local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(event.buf), ":t")
+    if file ~= "" then
+      vim.notify("File '" .. file .. "' changed on disk. Buffer reloaded!", vim.log.levels.INFO)
+    end
+  end,
+})
+
+-- 8. Tắt tự động chèn ký tự comment khi xuống dòng mới
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("disable_auto_comment"),
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+  end,
+})
+
+-- 9. Tự động lưu khi mất focus hoặc chuyển buffer
+vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
+  group = augroup("auto_save"),
+  callback = function()
+    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand("%") ~= "" and vim.bo.buftype == "" then
+      vim.cmd("silent! update")
+    end
+  end,
+})
+
+

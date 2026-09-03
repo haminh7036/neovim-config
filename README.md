@@ -114,6 +114,13 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 * **Hỗ trợ Monorepo / Container**: Đảm bảo File Explorer và Fuzzy Finder bám đúng ngữ cảnh của source package khi làm việc trong sub-directory hoặc cấu trúc Docker.
 * **Đồng bộ File Explorer**: `nvim-tree` tự động cập nhật thư mục gốc hiển thị theo project root hiện hành.
 
+### 7. Tối ưu hóa trải nghiệm (Editor Ergonomics)
+* **Tự động đồng bộ file**: Tự động phát hiện và nạp lại buffer khi file thay đổi trên đĩa (git pull, switch branch, thao tác qua LazyGit) kèm thông báo hệ thống, không cần đóng/mở lại buffer.
+* **Tự động lưu (Auto-save)**: Tự động lưu file khi chuyển buffer hoặc rời cửa sổ làm việc (`FocusLost`, `BufLeave`), hạn chế thất thoát code chưa lưu.
+* **Bảo toàn Clipboard khi Paste**: Dán đè lên vùng chọn trong Visual mode (`p`) mà không làm ghi đè nội dung đang lưu trong clipboard.
+* **Ngắt nối dòng comment**: Xuống dòng mới (`Enter` hoặc `o`) từ một comment sẽ tạo dòng code trắng bình thường thay vì tự động chèn thêm ký tự comment.
+* **Xóa nhanh highlight tìm kiếm**: Nhấn `<Esc>` ở Normal mode để tắt toàn bộ đánh dấu kết quả sau khi tìm kiếm bằng `/`.
+
 ---
 
 ## Bảng phím tắt (Keymaps Guide)
@@ -128,6 +135,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `Alt + Phím mũi tên Trái` | Nhảy lùi vị trí con trỏ trong jumplist | Normal |
 | `Alt + Phím mũi tên Phải` | Nhảy tiến vị trí con trỏ trong jumplist | Normal |
 | `Ctrl + s` | Lưu file hiện tại | Normal / Insert / Visual |
+| `Esc` | Xóa highlight tìm kiếm và thoát Normal mode | Normal |
 | `Ctrl + /` | Bật / tắt Floating Terminal | Normal / Terminal |
 | `Ctrl + d` / `Ctrl + u` | Cuộn nửa trang và căn giữa con trỏ | Normal |
 | `n` / `N` | Di chuyển đến kết quả tìm kiếm kế tiếp / trước đó (căn giữa) | Normal |
@@ -189,6 +197,7 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 | `cia` / `daa` | Thay đổi / xóa tham số hàm (`mini.ai`) | Normal |
 | `cif` / `daf` | Thay đổi / xóa thân hàm (`mini.ai`) | Normal |
 | `cit` / `dat` | Thao tác bên trong / toàn bộ cặp thẻ tag (`mini.ai`) | Normal |
+| `p` | Dán đè lên vùng chọn mà không ghi đè clipboard | Visual |
 
 ### 5. Git & Session
 | Phím tắt | Chức năng | Chế độ |

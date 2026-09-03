@@ -38,6 +38,9 @@ vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Clos
 -- Save File and return to Normal mode
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File and Normal Mode" })
 
+-- Xóa highlight tìm kiếm khi bấm Esc
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr><Esc>", { desc = "Clear Search Highlights" })
+
 -- Nhảy tới/lùi lịch sử con trỏ (VSCode style)
 vim.keymap.set("n", "<A-Left>", "<C-o>", { desc = "Go Back" })
 vim.keymap.set("n", "<A-Right>", "<C-i>", { desc = "Go Forward" })
@@ -153,6 +156,9 @@ vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev Search Result and Center" })
 -- Thụt lề liên tục trong Visual mode (giữ nguyên vùng chọn)
 vim.keymap.set("v", "<", "<gv", { desc = "Indent Left and Reselect" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent Right and Reselect" })
+
+-- Giữ nguyên clipboard khi Paste đè trong Visual mode
+vim.keymap.set("x", "p", [["_dP]], { desc = "Paste without overwriting clipboard" })
 
 -- Điều hướng danh sách Quickfix Native
 vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Previous Quickfix Item" })
