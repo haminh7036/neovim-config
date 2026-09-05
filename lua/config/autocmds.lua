@@ -2,6 +2,14 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("Native_" .. name, { clear = true })
 end
 
+-- 0. Ghi nhận khi mở Neovim từ stdin (pipe)
+vim.api.nvim_create_autocmd("StdinReadPre", {
+  group = augroup("stdin_read"),
+  callback = function()
+    vim.g.started_with_stdin = true
+  end,
+})
+
 -- 1. Highlight khi copy (Yank)
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
@@ -22,7 +30,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.b[buf].last_loc = true
     local mark = vim.api.nvim_buf_get_mark(buf, '"')
     local lcount = vim.api.nvim_buf_line_count(buf)
-    if mark[1] > 0 and mark[1] <= lcount then
+    if mark[1] > 0 and mark[1] <= lcount and vim.api.nvim_win_get_buf(0) == buf then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,

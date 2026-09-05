@@ -34,8 +34,8 @@ return {
       vim.api.nvim_create_autocmd("VimEnter", {
         group = vim.api.nvim_create_augroup("persistence_auto_restore", { clear = true }),
         callback = function()
-          -- Bỏ qua nếu đọc từ stdin hoặc đang chạy diff mode
-          if vim.g.started_with_stdin or vim.opt.diff:get() then
+          -- Bỏ qua nếu đọc từ stdin/pipe hoặc đang chạy diff mode
+          if (vim.uv or vim.loop).guess_handle(0) == "pipe" or vim.g.started_with_stdin or vim.opt.diff:get() then
             return
           end
 

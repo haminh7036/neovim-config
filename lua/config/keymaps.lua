@@ -20,12 +20,21 @@ vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buff
 vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
 
-vim.keymap.set("n", "<leader>bd", "<Cmd>bp|bd #<CR>", { desc = "Close Buffer" })
+vim.keymap.set("n", "<leader>bd", function()
+  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+  local cur = vim.api.nvim_get_current_buf()
+  if #bufs <= 1 then
+    vim.cmd("enew")
+  else
+    vim.cmd("bp")
+  end
+  vim.api.nvim_buf_delete(cur, { force = false })
+end, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>bo", function()
   local current = vim.api.nvim_get_current_buf()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) then
-      vim.api.nvim_buf_delete(buf, { force = true })
+    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+      vim.api.nvim_buf_delete(buf, { force = false })
     end
   end
 end, { desc = "Close Other Buffers" })
