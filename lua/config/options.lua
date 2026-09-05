@@ -58,21 +58,3 @@ opt.timeoutlen = 300 -- Thời gian chờ phím tiếp theo của tổ hợp (wh
 -- === Cấu hình Session ===
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 
--- Bỏ qua sigusr1 (Matugen) khi chạy trên Windows / Non-POSIX
-if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-  local uv = vim.uv or vim.loop
-  if uv and uv.new_signal then
-    local orig = uv.new_signal
-    uv.new_signal = function(...)
-      local sig = orig(...)
-      if sig and sig.start then
-        local start = sig.start
-        sig.start = function(self, name, cb)
-          if name == "sigusr1" then return end
-          return start(self, name, cb)
-        end
-      end
-      return sig
-    end
-  end
-end

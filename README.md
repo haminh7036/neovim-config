@@ -1,20 +1,19 @@
 # Neovim Configuration (v0.12+)
 
-Bộ cấu hình Neovim tinh gọn, tập trung vào hiệu năng và trải nghiệm lập trình:
-* **Native LSP & Completion**: Tận dụng API Native LSP của Neovim (v0.12+) kết hợp `blink.cmp`.
-* **Bộ gõ Fcitx5**: Tích hợp điều khiển IME tiếng Việt trực tiếp qua Libuv process, tự động chuyển đổi theo chế độ và buffer.
-* **Dynamic Theming**: Đồng bộ bảng màu hệ thống qua Matugen (`SIGUSR1`).
-* **Root Detection**: Tự động nhận diện thư mục gốc của dự án (`vim.fs.root`).
+Cấu hình Neovim hiện đại, tinh gọn, tập trung vào hiệu năng và trải nghiệm lập trình:
+* **Giao diện**: Catppuccin Mocha, tối ưu độ tương phản cho code, LSP diagnostics và nhãn nhảy nhanh (`flash.nvim`).
+* **LSP & Autocomplete**: Native LSP (Neovim 0.12+) kết hợp `blink.cmp` (Rust engine siêu tốc).
+* **Bộ gõ Fcitx5**: Tự động chuyển về tiếng Anh khi thoát Insert mode (`<Esc>`), ghi nhớ trạng thái theo từng buffer.
+* **Tìm kiếm & Motion**: `fzf-lua`, `grug-far` (tìm/thay thế toàn dự án), `flash.nvim` (nhảy nhanh con trỏ).
 
 ---
 
 ## Yêu cầu hệ thống (Prerequisites)
 
-* **Neovim >= 0.11.0** (khuyến nghị **v0.12+** cho Native LSP API).
-* **Git** & **ripgrep** (cần cho tìm kiếm file và nội dung với `fzf-lua`).
-* **Fcitx5** & **fcitx5-remote** (quản lý trạng thái bộ gõ tiếng Việt).
-* **Matugen** (tùy chọn: đồng bộ theme theo hình nền hệ thống).
-* **LazyGit** (tùy chọn: giao diện Git TUI).
+* **Neovim >= 0.11.0** (khuyến nghị **v0.12+**).
+* **Git** & **ripgrep (`rg`)**: Phục vụ tìm kiếm file và nội dung.
+* **Fcitx5** & **fcitx5-remote**: Quản lý trạng thái bộ gõ tiếng Việt (Linux).
+* **LazyGit** *(tùy chọn)*: Giao diện Git TUI.
 
 ---
 
@@ -24,15 +23,13 @@ Bộ cấu hình Neovim tinh gọn, tập trung vào hiệu năng và trải ngh
 # 1. Sao lưu cấu hình cũ (nếu có)
 mv ~/.config/nvim ~/.config/nvim.bak
 mv ~/.local/share/nvim ~/.local/share/nvim.bak
-mv ~/.state/nvim ~/.state/nvim.bak
-mv ~/.cache/nvim ~/.cache/nvim.bak
 
 # 2. Clone repository vào thư mục config
 git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
-```
 
-> [!NOTE]
-> Trong lần khởi động đầu tiên, `lazy.nvim` sẽ tự động tải và cài đặt các plugin được khai báo.
+# 3. Khởi động Neovim (lazy.nvim sẽ tự động cài đặt plugin)
+nvim
+```
 
 ---
 
@@ -40,86 +37,41 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 
 ```text
 ~/.config/nvim/
-├── .stylua.toml        # Quy chuẩn định dạng code Lua (indent 2 spaces)
-├── init.lua            # Entry point khởi tạo cấu hình
-├── lazy-lock.json      # File lock quản lý phiên bản plugin
-├── LICENSE             # Giấy phép mã nguồn
-├── README.md           # Tài liệu hướng dẫn sử dụng
+├── init.lua            # Điểm khởi đầu nạp cấu hình
+├── lazy-lock.json      # Quản lý phiên bản plugin
 └── lua/
-    ├── matugen.lua     # Module xử lý tín hiệu đổi theme từ Matugen
     ├── config/
-    │   ├── autocmds.lua # Các autocommand hệ thống (Yank highlight, restore cursor...)
-    │   ├── fcitx5.lua   # Điều khiển Fcitx5 qua Libuv process
-    │   ├── keymaps.lua  # Phím tắt chung và floating terminal / LazyGit
+    │   ├── autocmds.lua # Tự động reload file, highlight yank, auto-save...
+    │   ├── fcitx5.lua   # Điều khiển Fcitx5 qua Libuv
+    │   ├── keymaps.lua  # Phím tắt chung, terminal, điều hướng cửa sổ
     │   ├── lazy.lua     # Khởi tạo và thiết lập lazy.nvim
-    │   ├── options.lua  # Thiết lập tùy chọn hệ thống (Vim options)
-    │   └── root.lua     # Cơ chế nhận diện root directory dự án (vim.fs.root)
-    └── plugins/
-        ├── base16.lua           # Color scheme base16-nvim và Matugen loader
-        ├── dial.lua             # Mở rộng tăng/giảm giá trị, boolean, case (dial.nvim)
-        ├── grug-far.lua         # Tìm kiếm và thay thế toàn dự án (grug-far.nvim)
-        ├── nvim-tree.lua        # Trình quản lý cây thư mục (File explorer)
-        ├── which-key.lua        # Hiển thị gợi ý phím tắt (Which-Key)
-        ├── treesitter.lua       # Phân tích cú pháp theo AST (Syntax highlighting)
-        ├── blink.lua            # Engine autocomplete viết bằng Rust (blink.cmp)
-        ├── lsp.lua              # Cấu hình Native LSP, Mason & SchemaStore
-        ├── tiny-inline-diagnostic.lua # Hiển thị diagnostic inline (tiny-inline-diagnostic)
-        ├── fzf.lua              # Tìm kiếm mờ (Fuzzy finder) file và văn bản
-        ├── formatting.lua       # Tự động format mã nguồn khi lưu (Conform.nvim)
-        ├── git.lua              # Git signs ở gutter và trình xem diff (Diffview)
-        ├── image.lua            # Hiển thị hình ảnh (Kitty Graphics Protocol)
-        ├── ui.lua               # Giao diện Statusline (lualine) & Tabline (bufferline)
-        ├── session.lua          # Lưu và khôi phục session làm việc (Persistence)
-        ├── neoscroll.lua        # Hiệu ứng cuộn mượt (Smooth scrolling)
-        ├── indent-blankline.lua # Hiển thị đường gióng thụt đầu dòng (Indent guides)
-        ├── nvim-surround.lua    # Thao tác với cặp ký tự bao quanh (Surround)
-        ├── flash.lua            # Điều hướng nhanh tới vị trí hiển thị (Motion)
-        ├── lazydev.lua          # Hỗ trợ autocomplete cho Neovim Lua API
-        ├── todo-comments.lua    # Highlight và tìm kiếm comment TODO/FIX/NOTE
-        ├── trouble.lua          # Danh sách hiển thị diagnostics, quickfix, references
-        ├── mini-ai.lua          # Mở rộng text objects (tham số, hàm, block)
-        └── utilities.lua        # Tự động đóng ngoặc (nvim-autopairs)
+    │   ├── options.lua  # Thiết lập Vim options (tab, indent, line number...)
+    │   └── root.lua     # Tự động nhận diện thư mục gốc dự án
+    └── plugins/         # Cấu hình từng plugin riêng biệt (LSP, UI, Git, Motion...)
 ```
 
 ---
 
-## Tính năng chính (Key Features)
+## Tính năng nổi bật
 
-### 1. Tích hợp bộ gõ Fcitx5
-* **Hiệu năng cao**: Gọi trực tiếp binary `fcitx5-remote` thông qua API Libuv process (`vim.fn.system` dạng list arguments), không fork shell con. Thời gian phản hồi < 1ms khi rời Insert mode (`<Esc>`).
-* **Buffer-local State**: Lưu trạng thái IME độc lập theo từng buffer; tự động khôi phục đúng chế độ khi chuyển đổi qua lại giữa các file.
-* **Loại trừ Filetypes**: Tự động tắt IME trên các buffer tiện ích (`NvimTree`, `fzf`, `lazy`, `mason`...) để tránh xung đột phím tắt ở Normal mode.
-* **Đồng bộ Focus**: Lưu và khôi phục trạng thái bộ gõ khi chuyển cửa sổ terminal (`FocusGained`/`FocusLost`) hoặc thoát editor.
+1. **Bộ gõ Fcitx5 thông minh**:
+   - Tự động chuyển về tiếng Anh khi thoát Insert mode, khôi phục lại tiếng Việt khi gõ tiếp.
+   - Nhớ trạng thái IME độc lập cho từng buffer; tự tắt IME trên các cửa sổ tiện ích (`NvimTree`, `fzf`, `lazy`).
 
-### 2. Native LSP, SchemaStore & Completion
-* **Native LSP API**: Sử dụng hoàn toàn cơ chế `vim.lsp.config` và `vim.lsp.enable` của Neovim v0.12+, không phụ thuộc wrapper cũ.
-* **SchemaStore Integration**: Tự động nạp schema từ SchemaStore cho `jsonls` và `yamlls` (validate và autocomplete cho JSON Schema, GitHub Actions, Compose...).
-* **Engine Completion**: Sử dụng `blink.cmp` (Rust-based) cho tốc độ index và render danh sách gợi ý nhanh, tiêu tốn ít tài nguyên.
-* **Inline Diagnostics**: Tích hợp `tiny-inline-diagnostic.nvim` hiển thị chi tiết lỗi/cảnh báo ở cuối dòng gọn gàng, không làm xô lệch cấu trúc code.
-* **Quản lý Package**: Tích hợp Mason để cài đặt, cập nhật LSP server, linter và formatter tập trung.
+2. **Native LSP & Completion**:
+   - Sử dụng hoàn toàn Native LSP API của Neovim 0.12+.
+   - `blink.cmp`: Engine gợi ý code viết bằng Rust cho tốc độ tức thì và tiêu tốn ít RAM.
+   - `tiny-inline-diagnostic`: Hiển thị thông báo lỗi cuối dòng gọn gàng, không làm xô lệch cấu trúc code.
+   - Quản lý LSP server, linter và formatter tập trung qua `mason.nvim`.
 
-### 3. Tìm kiếm & Chỉnh sửa nâng cao
-* **Search & Replace (`grug-far.nvim`)**: Tìm kiếm và thay thế trực quan trên toàn bộ dự án với `ripgrep`, hỗ trợ xem trước diff và lọc theo đường dẫn.
-* **Tăng / Giảm thông minh (`dial.nvim`)**: Mở rộng `<C-a>` / `<C-x>` để toggle nhanh `true` / `false`, `&&` / `||`, `==` / `!=`, ngày tháng, semver và chuyển đổi naming convention (`camelCase` $\leftrightarrow$ `snake_case` $\leftrightarrow$ `PascalCase`).
+3. **Giao diện Catppuccin Mocha**:
+   - Bảng màu dark êm mắt, tích hợp sẵn và đồng bộ toàn diện với tất cả plugin.
+   - Nhãn phím nhảy nhanh (`flash.nvim`) có độ tương phản cao, dễ nhìn.
 
-### 4. Đồng bộ giao diện (Matugen Sync)
-* Module `matugen.lua` bắt tín hiệu `SIGUSR1` từ daemon hệ thống. Khi hình nền hoặc palette màu hệ thống thay đổi, Neovim tự động nạp lại theme tương ứng trong thời gian thực.
-
-### 5. Quản lý Session & Editor Motion
-* **Session Management**: Tự động lưu buffer, layout cửa sổ và vị trí con trỏ theo thư mục dự án; cho phép khôi phục phiên làm việc trước đó.
-* **Motion & Text Objects**: Tích hợp `flash.nvim` để nhảy vị trí bằng nhãn 2 ký tự, `mini.ai` để thao tác nhanh với text objects (tham số hàm, closure, tag XML/HTML).
-
-### 6. Tự động nhận diện thư mục gốc (Project Root Detection)
-* **Thuật toán tìm kiếm**: Sử dụng C-API `vim.fs.root` để quét ngược từ file hiện tại tới root pattern gần nhất (`composer.json`, `go.mod`, `package.json`, `pyproject.toml`, `Cargo.toml`, `CMakeLists.txt`, `Makefile`, hoặc `.git`).
-* **Hỗ trợ Monorepo / Container**: Đảm bảo File Explorer và Fuzzy Finder bám đúng ngữ cảnh của source package khi làm việc trong sub-directory hoặc cấu trúc Docker.
-* **Đồng bộ File Explorer**: `nvim-tree` tự động cập nhật thư mục gốc hiển thị theo project root hiện hành.
-
-### 7. Tối ưu hóa trải nghiệm (Editor Ergonomics)
-* **Tự động đồng bộ file**: Tự động phát hiện và nạp lại buffer khi file thay đổi trên đĩa (git pull, switch branch, thao tác qua LazyGit) kèm thông báo hệ thống, không cần đóng/mở lại buffer.
-* **Tự động lưu (Auto-save)**: Tự động lưu file khi chuyển buffer hoặc rời cửa sổ làm việc (`FocusLost`, `BufLeave`), hạn chế thất thoát code chưa lưu.
-* **Bảo toàn Clipboard khi Paste**: Dán đè lên vùng chọn trong Visual mode (`p`) mà không làm ghi đè nội dung đang lưu trong clipboard.
-* **Ngắt nối dòng comment**: Xuống dòng mới (`Enter` hoặc `o`) từ một comment sẽ tạo dòng code trắng bình thường thay vì tự động chèn thêm ký tự comment.
-* **Xóa nhanh highlight tìm kiếm**: Nhấn `<Esc>` ở Normal mode để tắt toàn bộ đánh dấu kết quả sau khi tìm kiếm bằng `/`.
+4. **Tìm kiếm & Trải nghiệm soạn thảo**:
+   - **Tìm kiếm**: `fzf-lua` tìm file và grep siêu nhanh; `grug-far` tìm & thay thế trực quan trên toàn dự án.
+   - **Tự động lưu & đồng bộ**: Tự động lưu file khi chuyển buffer; tự reload khi file thay đổi từ bên ngoài (git pull, switch branch).
+   - **Text Objects & Surround**: `mini.ai` mở rộng thao tác hàm/tham số; `nvim-surround` thêm/đổi/xóa nhanh dấu ngoặc.
 
 ---
 
