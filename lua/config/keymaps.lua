@@ -32,10 +32,18 @@ vim.keymap.set("n", "<leader>bd", function()
 end, { desc = "Close Buffer" })
 vim.keymap.set("n", "<leader>bo", function()
   local current = vim.api.nvim_get_current_buf()
+  local unsaved = 0
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
-      vim.api.nvim_buf_delete(buf, { force = false })
+    if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+      if vim.bo[buf].modified then
+        unsaved = unsaved + 1
+      else
+        pcall(vim.api.nvim_buf_delete, buf, { force = false })
+      end
     end
+  end
+  if unsaved > 0 then
+    vim.notify(string.format("%d buffer(s) have unsaved changes and were not closed", unsaved), vim.log.levels.WARN, { title = "Buffer" })
   end
 end, { desc = "Close Other Buffers" })
 
