@@ -65,6 +65,7 @@ return {
     wk.add({
       { "<leader>b", group = "Buffer", expand = expand_buffers },
       { "<leader>c", group = "Code" },
+      { "<leader>d", group = "Debug" },
       { "<leader>f", group = "Find" },
       { "<leader>g", group = "Git" },
       { "<leader>q", group = "Session/Quit" },

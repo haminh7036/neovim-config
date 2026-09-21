@@ -73,6 +73,13 @@ nvim
    - **Tự động lưu & đồng bộ**: Tự động lưu file khi chuyển buffer; tự reload khi file thay đổi từ bên ngoài (git pull, switch branch).
    - **Text Objects & Surround**: `mini.ai` mở rộng thao tác hàm/tham số; `nvim-surround` thêm/đổi/xóa nhanh dấu ngoặc.
 
+5. **Debug (DAP) & Go Tooling**:
+   - **`nvim-dap`** + **`nvim-dap-ui`**: Step debugger đầy đủ (breakpoint, step over/into/out, inspect biến, REPL) — tương đương trải nghiệm Xdebug.
+   - **`nvim-dap-go`**: Tự cấu hình adapter Delve (`dlv`) cho Go, kèm lệnh debug nhanh 1 test case (`debug_test`/`debug_last_test`).
+   - **`nvim-lint`**: Lint nền không block UI, dùng `golangci-lint` cho Go (bắt lỗi sâu hơn `go vet`: `errcheck`, `staticcheck`, `gosec`...).
+   - **`conform.nvim`**: Format khi lưu file, Go dùng `goimports` (tự fix import) + `gofumpt` (format chặt hơn `gofmt` chuẩn).
+   - Toàn bộ binary (`dlv`, `golangci-lint`, `goimports`, `gofumpt`, `gopls`) đều quản lý tập trung qua `mason.nvim` — không cần `go install` thủ công.
+
 ---
 
 ## Bảng phím tắt (Keymaps Guide)
@@ -138,6 +145,7 @@ nvim
 | `Space + ca` | Danh sách thao tác code nhanh (Code Action) | Normal |
 | `Space + cd` | Hiển thị chi tiết diagnostic tại dòng hiện tại | Normal |
 | `Space + cf` | Format mã nguồn file hiện tại | Normal |
+| `Space + cL` | Lint buffer hiện tại (chạy tay, ngoài ra tự chạy khi lưu/rời Insert) | Normal |
 | `[d` / `]d` | Chuyển đến diagnostic trước đó / kế tiếp | Normal |
 | `gcc` | Bật / tắt comment dòng hiện tại | Normal |
 | `gc` | Bật / tắt comment vùng chọn | Visual |
@@ -187,7 +195,23 @@ nvim
 | `Space + xl` | Mở Location List trong Trouble | Normal |
 | `Space + xq` | Mở Quickfix List trong Trouble | Normal |
 
-### 8. Tùy chọn hiển thị (UI Toggles)
+### 8. Debug (DAP - Delve)
+| Phím tắt | Chức năng | Chế độ |
+| :--- | :--- | :--- |
+| `F5` / `Space + dc` | Continue (chạy tới breakpoint kế tiếp, hoặc bắt đầu debug) | Normal |
+| `F9` / `Space + db` | Toggle breakpoint tại dòng hiện tại | Normal |
+| `Space + dB` | Đặt breakpoint có điều kiện (nhập expression) | Normal |
+| `F10` / `Space + do` | Step Over | Normal |
+| `F11` / `Space + di` | Step Into | Normal |
+| `F12` / `Space + dO` | Step Out | Normal |
+| `Space + dh` | Xem giá trị biến dưới con trỏ (Hover) | Normal |
+| `Space + dr` | Bật / tắt REPL debug console | Normal |
+| `Space + du` | Bật / tắt DAP UI (panel Scopes/Watches/Stacks) | Normal |
+| `Space + dt` | Kết thúc phiên debug (Terminate) | Normal |
+| `Space + dgt` | Debug test Go gần con trỏ nhất | Normal |
+| `Space + dgl` | Debug lại test Go vừa chạy lần trước | Normal |
+
+### 9. Tùy chọn hiển thị (UI Toggles)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Space + uh` | Bật / tắt gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
