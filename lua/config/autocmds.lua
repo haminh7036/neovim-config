@@ -118,4 +118,18 @@ vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   end,
 })
 
+-- 10. Tự động vẽ lại màn hình khi đóng popup của Mason, Lazy...
+vim.api.nvim_create_autocmd("BufHidden", {
+  group = augroup("redraw_on_popup_close"),
+  pattern = "*",
+  callback = function(event)
+    local ft = vim.bo[event.buf].filetype
+    if ft == "lazy" or ft == "mason" or ft == "lspinfo" then
+      vim.schedule(function()
+        vim.cmd("redraw!")
+      end)
+    end
+  end,
+})
+
 
