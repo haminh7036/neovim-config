@@ -29,6 +29,10 @@ git clone https://github.com/haminh7036/neovim-config.git ~/.config/nvim
 
 # 3. Khởi động Neovim (lazy.nvim sẽ tự động cài đặt plugin)
 nvim
+
+# 4. Cài đặt toàn bộ công cụ Go (LSP, formatter, linter, debugger) qua Mason
+#    Chạy 1 lần trên mỗi máy — binary không đi theo git, chỉ config mới sync.
+nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c "qa"
 ```
 
 ---
