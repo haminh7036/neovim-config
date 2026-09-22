@@ -171,8 +171,9 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   end,
 })
 
--- 8. Phím tắt Esc ở Normal mode: Xóa highlight tìm kiếm và ép tắt IME dứt điểm
+-- 8. Phím tắt Esc ở Normal mode: Xóa highlight tìm kiếm, vẽ lại màn hình và ép tắt IME dứt điểm
 vim.keymap.set("n", "<Esc>", function()
   fcitx_off()
   vim.cmd("nohlsearch")
-end, { desc = "Clear Highlight & Force IME Off" })
+  vim.cmd("redraw!")
+end, { desc = "Clear Search, Redraw & Force IME Off" })
