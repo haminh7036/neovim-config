@@ -66,6 +66,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - Sử dụng hoàn toàn Native LSP API của Neovim 0.12+.
    - `blink.cmp`: Engine gợi ý code viết bằng Rust cho tốc độ tức thì và tiêu tốn ít RAM.
    - `tiny-inline-diagnostic`: Hiển thị thông báo lỗi cuối dòng gọn gàng, không làm xô lệch cấu trúc code.
+   - `fidget.nvim`: Hiển thị tiến trình LSP (loading, indexing...) ở góc màn hình thay vì lẫn vào `:messages`.
    - Quản lý LSP server, linter và formatter tập trung qua `mason.nvim`.
 
 3. **Giao diện Catppuccin Mocha**:
@@ -76,6 +77,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - **Tìm kiếm**: `fzf-lua` tìm file và grep siêu nhanh; `grug-far` tìm & thay thế trực quan trên toàn dự án.
    - **Tự động lưu & đồng bộ**: Tự động lưu file khi chuyển buffer; tự reload khi file thay đổi từ bên ngoài (git pull, switch branch).
    - **Text Objects & Surround**: `mini.ai` mở rộng thao tác hàm/tham số; `nvim-surround` thêm/đổi/xóa nhanh dấu ngoặc.
+   - **Thụt lề tự động**: `guess-indent.nvim` tự nhận diện tab/space và độ rộng theo từng file khi mở, tránh lệch convention giữa các dự án (Go dùng tab, PHP dùng 4-space...).
 
 5. **Debug (DAP) & Go Tooling**:
    - **`nvim-dap`** + **`nvim-dap-ui`**: Step debugger đầy đủ (breakpoint, step over/into/out, inspect biến, REPL) — tương đương trải nghiệm Xdebug.
