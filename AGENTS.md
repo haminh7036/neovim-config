@@ -15,6 +15,7 @@ File này là bản chính (`AGENTS.md`, chuẩn dùng chung cho nhiều agent C
 
 ## Code Style
 - **[Ngôn ngữ]**: Comment trong code Lua viết bằng tiếng Việt (ghi đè quy tắc "code comment tiếng Anh" ở cấp global — đây là chủ ý, không phải thiếu sót cần "sửa lại"). Giữ nguyên tên thuật ngữ kỹ thuật trong câu tiếng Việt (ví dụ: `capabilities`, `parser`, `keymaps`, `setup_handlers`, `buffer`, `Statusline`...), không dịch máy móc. Riêng chuỗi mô tả `desc = "..."` của keymap giữ tiếng Anh để đồng bộ với Neovim và các plugin. Thụt lề 2 spaces theo `.stylua.toml`.
+- **[Văn phong Comment]**: Comment chỉ mô tả plugin/đoạn code đó làm gì và tại sao (cơ chế, lý do chọn), không dùng tính từ đánh giá/quảng cáo (siêu tốc, thông minh, mượt mà, gọn gàng, chuyên nghiệp, nhanh khi không cần thiết...) — cùng chuẩn với **[README Style]**.
 
 ## Git
 - **[SSH]**: Ưu tiên SSH thay vì HTTPS khi push code để tránh bước nhập tài khoản/mật khẩu.

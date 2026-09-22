@@ -66,7 +66,7 @@ return {
           end
         end
 
-        -- Các phím tắt tùy chỉnh để điều hướng nhanh
+        -- Các phím tắt tùy chỉnh để điều hướng cây thư mục
         vim.keymap.set("n", "<CR>", safe_open, opts("Open (Safe)"))
         vim.keymap.set("n", "o", safe_open, opts("Open (Safe)"))
         vim.keymap.set("n", "l", safe_open, opts("Open (Safe)"))
@@ -93,7 +93,7 @@ return {
         },
         renderer = {
           group_empty = true,
-          root_folder_label = false, -- Ẩn hoàn toàn dòng hiển thị thư mục gốc trên cùng để UI gọn gàng
+          root_folder_label = false, -- Ẩn dòng hiển thị thư mục gốc trên cùng (bớt 1 dòng chiều cao)
         },
         git = {
           enable = true,

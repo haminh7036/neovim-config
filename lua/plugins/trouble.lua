@@ -1,5 +1,5 @@
 return {
-  -- Panel gọn liệt kê diagnostics / references / quickfix, điều hướng nhanh
+  -- Panel liệt kê diagnostics / references / quickfix
   {
     "folke/trouble.nvim",
     cmd = "Trouble",

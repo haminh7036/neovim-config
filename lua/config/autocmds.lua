@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("VimResized", {
   end,
 })
 
--- 5. Đóng nhanh các cửa sổ đọc tài liệu / popup bằng phím 'q'
+-- 5. Đóng các cửa sổ đọc tài liệu / popup bằng phím 'q'
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_with_q"),
   pattern = {

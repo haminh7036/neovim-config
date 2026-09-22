@@ -1,5 +1,5 @@
 return {
-  -- Nhảy nhanh tới bất kỳ vị trí nào trên màn hình bằng nhãn ký tự
+  -- Nhảy tới bất kỳ vị trí nào trên màn hình bằng nhãn ký tự
   {
     "folke/flash.nvim",
     event = "VeryLazy",

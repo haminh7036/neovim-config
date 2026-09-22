@@ -10,7 +10,7 @@ return {
         use_local_scrolloff = false,
         respect_scrolloff = false,
         cursor_scrolls_alone = true,
-        easing = "quadratic",        -- Hiệu ứng gia tốc mượt mà (giống VSCode)
+        easing = "quadratic",        -- Easing bậc 2 cho hiệu ứng cuộn (giống cách VSCode cuộn)
         performance_mode = false,
       })
     end,

@@ -59,7 +59,7 @@ return {
     },
   },
 
-  -- Xem Git Diff & 3-Way Merge dạng Side-by-Side chuyên nghiệp
+  -- Xem Git Diff & 3-Way Merge dạng Side-by-Side
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewFileHistory" },

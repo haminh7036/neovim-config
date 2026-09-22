@@ -1,4 +1,4 @@
--- Plugin gợi ý và nhắc phím tắt thông minh
+-- Plugin hiển thị popup gợi ý phím tắt khi gõ leader key
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -74,7 +74,7 @@ return {
       { "<leader>x", group = "Diagnostics/Quickfix" },
     })
 
-    -- Đăng ký phím tắt Leader + ? để mở bảng tra cứu phím tắt nhanh
+    -- Đăng ký phím tắt Leader + ? để mở bảng tra cứu phím tắt
     vim.keymap.set("n", "<leader>?", function()
       wk.show()
     end, { desc = "Keymap Help" })
