@@ -5,7 +5,7 @@ Quy tắc riêng cho repo cấu hình Neovim này. Các quy tắc ở đây ưu 
 File này là bản chính (`AGENTS.md`, chuẩn dùng chung cho nhiều agent CLI: Claude Code, Codex, Cursor, Aider...). `.clinerules` và `CLAUDE.md` chỉ là symlink trỏ vào đây để từng tool tự nhận diện — sửa nội dung thì luôn sửa `AGENTS.md`, không sửa qua symlink.
 
 ## Tài liệu
-- **[README Style]**: `README.md` viết bằng tiếng Việt, ngắn gọn, đơn giản, dễ đọc; không dùng emoji/icon; không xưng hô "bạn"/"tôi".
+- **[README Style]**: `README.md` viết bằng tiếng Việt, ngắn gọn, đơn giản, dễ đọc; không dùng emoji/icon; không xưng hô "bạn"/"tôi". Chỉ mô tả plugin/tính năng làm gì và cơ chế hoạt động ra sao, không dùng tính từ đánh giá/quảng cáo (siêu tốc, thông minh, mượt mà, trực quan, toàn diện, trải nghiệm...) — tham khảo văn phong tài liệu Go (`go.dev/doc`): nói sự thật/cơ chế, không nói nó tốt cỡ nào.
 - **[README Sync]**: Cập nhật `README.md` (cấu trúc thư mục / mục tính năng / bảng phím tắt) là một phần bắt buộc của cùng lần thêm/sửa/xóa plugin hay tính năng — làm ngay trong lượt edit đó, không phải bước riêng làm sau hoặc chỉ khi được hỏi "có cần cập nhật docs không".
 
 ## Plugin

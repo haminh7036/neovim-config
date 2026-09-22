@@ -1,10 +1,10 @@
 # Neovim Configuration (v0.12+)
 
-Cấu hình Neovim hiện đại, tinh gọn, tập trung vào hiệu năng và trải nghiệm lập trình:
-* **Giao diện**: Catppuccin Mocha, tối ưu độ tương phản cho code, LSP diagnostics và nhãn nhảy nhanh (`flash.nvim`).
-* **LSP & Autocomplete**: Native LSP (Neovim 0.12+) kết hợp `blink.cmp` (Rust engine siêu tốc).
+Cấu hình Neovim cá nhân, dùng Native LSP API và Go tooling:
+* **Giao diện**: Catppuccin Mocha, chỉnh độ tương phản cho code, LSP diagnostics và nhãn `flash.nvim`.
+* **LSP & Autocomplete**: Native LSP (Neovim 0.12+) kết hợp `blink.cmp` (engine gợi ý code viết bằng Rust).
 * **Bộ gõ Fcitx5**: Tự động chuyển về tiếng Anh khi thoát Insert mode (`<Esc>`), ghi nhớ trạng thái theo từng buffer.
-* **Tìm kiếm & Motion**: `fzf-lua`, `grug-far` (tìm/thay thế toàn dự án), `flash.nvim` (nhảy nhanh con trỏ).
+* **Tìm kiếm & Motion**: `fzf-lua`, `grug-far` (tìm/thay thế toàn dự án), `flash.nvim` (nhảy đến vị trí bằng nhãn ký tự).
 
 ---
 
@@ -56,31 +56,31 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 
 ---
 
-## Tính năng nổi bật
+## Tính năng chính
 
-1. **Bộ gõ Fcitx5 thông minh**:
+1. **Bộ gõ Fcitx5**:
    - Tự động chuyển về tiếng Anh khi thoát Insert mode, khôi phục lại tiếng Việt khi gõ tiếp.
    - Nhớ trạng thái IME độc lập cho từng buffer; tự tắt IME trên các cửa sổ tiện ích (`NvimTree`, `fzf`, `lazy`).
 
 2. **Native LSP & Completion**:
    - Sử dụng hoàn toàn Native LSP API của Neovim 0.12+.
-   - `blink.cmp`: Engine gợi ý code viết bằng Rust cho tốc độ tức thì và tiêu tốn ít RAM.
-   - `tiny-inline-diagnostic`: Hiển thị thông báo lỗi cuối dòng gọn gàng, không làm xô lệch cấu trúc code.
+   - `blink.cmp`: Engine gợi ý code viết bằng Rust.
+   - `tiny-inline-diagnostic`: Hiển thị thông báo lỗi cuối dòng, không thay đổi vị trí các dòng/cột khác.
    - `fidget.nvim`: Hiển thị tiến trình LSP (loading, indexing...) ở góc màn hình thay vì lẫn vào `:messages`.
    - Quản lý LSP server, linter và formatter tập trung qua `mason.nvim`.
 
 3. **Giao diện Catppuccin Mocha**:
-   - Bảng màu dark êm mắt, tích hợp sẵn và đồng bộ toàn diện với tất cả plugin.
-   - Nhãn phím nhảy nhanh (`flash.nvim`) có độ tương phản cao, dễ nhìn.
+   - Bảng màu dark, áp dụng cho toàn bộ plugin (statusline, bufferline, diagnostics...).
+   - Nhãn `flash.nvim` dùng màu tương phản cao so với nền.
 
-4. **Tìm kiếm & Trải nghiệm soạn thảo**:
-   - **Tìm kiếm**: `fzf-lua` tìm file và grep siêu nhanh; `grug-far` tìm & thay thế trực quan trên toàn dự án.
+4. **Tìm kiếm & Chỉnh sửa**:
+   - **Tìm kiếm**: `fzf-lua` tìm file và grep bằng fuzzy finder; `grug-far` tìm & thay thế trên toàn dự án.
    - **Tự động lưu & đồng bộ**: Tự động lưu file khi chuyển buffer; tự reload khi file thay đổi từ bên ngoài (git pull, switch branch).
    - **Text Objects & Surround**: `mini.ai` mở rộng thao tác hàm/tham số; `nvim-surround` thêm/đổi/xóa nhanh dấu ngoặc.
    - **Thụt lề tự động**: `guess-indent.nvim` tự nhận diện tab/space và độ rộng theo từng file khi mở, tránh lệch convention giữa các dự án (Go dùng tab, PHP dùng 4-space...).
 
 5. **Debug (DAP) & Go Tooling**:
-   - **`nvim-dap`** + **`nvim-dap-ui`**: Step debugger đầy đủ (breakpoint, step over/into/out, inspect biến, REPL) — tương đương trải nghiệm Xdebug.
+   - **`nvim-dap`** + **`nvim-dap-ui`**: Step debugger (breakpoint, step over/into/out, inspect biến, REPL).
    - **`nvim-dap-go`**: Tự cấu hình adapter Delve (`dlv`) cho Go, kèm lệnh debug nhanh 1 test case (`debug_test`/`debug_last_test`).
    - **`nvim-lint`**: Lint nền không block UI, dùng `golangci-lint` cho Go (bắt lỗi sâu hơn `go vet`: `errcheck`, `staticcheck`, `gosec`...).
    - **`conform.nvim`**: Format khi lưu file, Go dùng `goimports` (tự fix import) + `gofumpt` (format chặt hơn `gofmt` chuẩn).
@@ -181,7 +181,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 | `Space + ql` | Khôi phục session gần nhất | Normal |
 | `Space + qd` | Đóng phiên làm việc mà không lưu session | Normal |
 
-### 6. Điều hướng nhanh (Flash Motion)
+### 6. Điều hướng bằng nhãn (Flash Motion)
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `s` + 2 ký tự | Hiển thị nhãn và nhảy trực tiếp đến vị trí đích (Flash) | Normal / Visual / Operator |
