@@ -20,6 +20,7 @@ File này là bản chính (`AGENTS.md`, chuẩn dùng chung cho nhiều agent C
 ## Git
 - **[SSH]**: Ưu tiên SSH thay vì HTTPS khi push code để tránh bước nhập tài khoản/mật khẩu.
 - **[Workflow]**: Không tự ý commit hoặc push. Chỉ commit/push khi có yêu cầu trực tiếp từ người dùng.
+- **[Commit Message]**: Commit message viết bằng tiếng Anh (không áp dụng quy tắc "chat tiếng Việt" ở cấp global cho commit message) — khớp với convention sẵn có trong git log của repo. Quy tắc **[Ngôn ngữ]** ở Code Style chỉ áp dụng cho comment trong code Lua, không áp dụng cho commit message.
 
 ## Neovim
 - **[Bootstrap]**: Luôn tích hợp bootstrap lazy.nvim để tự động tải plugin cần thiết nếu máy chạy Neovim chưa có sẵn.
