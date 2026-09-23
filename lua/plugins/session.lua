@@ -42,9 +42,24 @@ return {
           local argc = vim.fn.argc()
           -- Khôi phục session nếu mở nvim không tham số hoặc chỉ mở thư mục
           if argc == 0 or (argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1) then
-            vim.schedule(function()
+            -- Nếu Lazy đang mở popup cài plugin thiếu (race với VimEnter), đợi popup
+            -- đóng rồi mới khôi phục, tránh session dựng layout window đè lên popup
+            -- khiến buffer bị kẹt trong vùng popup sau khi đóng.
+            local function restore_when_lazy_closed()
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "lazy" then
+                  vim.api.nvim_create_autocmd("WinClosed", {
+                    once = true,
+                    callback = function()
+                      vim.schedule(restore_when_lazy_closed)
+                    end,
+                  })
+                  return
+                end
+              end
               require("persistence").load()
-            end)
+            end
+            vim.schedule(restore_when_lazy_closed)
           end
         end,
       })
