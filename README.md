@@ -69,6 +69,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - `fidget.nvim`: Hiển thị tiến trình LSP (loading, indexing...) ở góc màn hình thay vì lẫn vào `:messages`.
    - Quản lý LSP server, linter và formatter tập trung qua `mason.nvim`.
    - Điều hướng (`gd`, `gi`, `gr`) qua `fzf-lua`: có preview code khi nhiều kết quả, thay vì quickfix list tĩnh.
+   - `nvim-treesitter-context`: Ghim dòng khai báo function/if/for/class... ở đầu cửa sổ khi cuộn xuống sâu bên trong, giới hạn tối đa 3 dòng.
 
 3. **Giao diện Catppuccin Mocha**:
    - Bảng màu dark, áp dụng cho toàn bộ plugin (statusline, bufferline, diagnostics...).
@@ -228,3 +229,4 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 | `Space + uh` | Bật / tắt gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
 | `Space + ud` | Bật / tắt thông báo lỗi inline (Inline Diagnostics) | Normal |
 | `Space + ub` | Bật / tắt Git blame dạng virtual text theo dòng | Normal |
+| `Space + uc` | Bật / tắt sticky context (Treesitter) ở đầu cửa sổ | Normal |
