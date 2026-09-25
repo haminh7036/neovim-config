@@ -6,11 +6,11 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window" })
 
--- Di chuyển giữa các cửa sổ bằng Ctrl + các phím mũi tên
-vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = "Go to Left Window" })
-vim.keymap.set("n", "<C-Down>", "<C-w>j", { desc = "Go to Lower Window" })
-vim.keymap.set("n", "<C-Up>", "<C-w>k", { desc = "Go to Upper Window" })
-vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Go to Right Window" })
+-- Chỉnh kích thước cửa sổ bằng Ctrl + các phím mũi tên
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
 -- Quản lý Buffer
 vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })

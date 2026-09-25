@@ -98,7 +98,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 | Phím tắt | Chức năng | Chế độ |
 | :--- | :--- | :--- |
 | `Ctrl + h / j / k / l` | Di chuyển focus sang cửa sổ Trái / Dưới / Trên / Phải | Normal |
-| `Ctrl + Phím mũi tên` | Điều hướng nhanh giữa các split window | Normal |
+| `Ctrl + Phím mũi tên` | Chỉnh kích thước cửa sổ (chiều cao/chiều rộng) | Normal |
 | `Alt + j` | Di chuyển dòng / khối code được chọn xuống dưới | Normal / Insert / Visual |
 | `Alt + k` | Di chuyển dòng / khối code được chọn lên trên | Normal / Insert / Visual |
 | `Alt + Phím mũi tên Trái` | Nhảy lùi vị trí con trỏ trong jumplist | Normal |
