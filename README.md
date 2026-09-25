@@ -79,6 +79,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - **Tự động lưu & đồng bộ**: Tự động lưu file khi chuyển buffer; tự reload khi file thay đổi từ bên ngoài (git pull, switch branch).
    - **Text Objects & Surround**: `mini.ai` mở rộng thao tác hàm/tham số; `nvim-surround` thêm/đổi/xóa nhanh dấu ngoặc.
    - **Thụt lề tự động**: `guess-indent.nvim` tự nhận diện tab/space và độ rộng theo từng file khi mở, tránh lệch convention giữa các dự án (Go dùng tab, PHP dùng 4-space...).
+   - **Comment theo ngữ cảnh**: `ts-comments.nvim` xác định `commentstring` dựa trên vùng Treesitter chứa con trỏ, không theo filetype cố định của cả file — comment đúng cú pháp trong ngôn ngữ nhúng (vd. JS trong `<script>` của HTML).
 
 5. **Debug (DAP) & Go Tooling**:
    - **`nvim-dap`** + **`nvim-dap-ui`**: Step debugger (breakpoint, step over/into/out, inspect biến, REPL).
