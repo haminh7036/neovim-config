@@ -68,6 +68,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - `tiny-inline-diagnostic`: Hiển thị thông báo lỗi cuối dòng, không thay đổi vị trí các dòng/cột khác.
    - `fidget.nvim`: Hiển thị tiến trình LSP (loading, indexing...) ở góc màn hình thay vì lẫn vào `:messages`.
    - Quản lý LSP server, linter và formatter tập trung qua `mason.nvim`.
+   - Điều hướng (`gd`, `gi`, `gr`) qua `fzf-lua`: có preview code khi nhiều kết quả, thay vì quickfix list tĩnh.
 
 3. **Giao diện Catppuccin Mocha**:
    - Bảng màu dark, áp dụng cho toàn bộ plugin (statusline, bufferline, diagnostics...).
