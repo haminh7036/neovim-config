@@ -39,6 +39,7 @@ return {
         map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview Hunk" })
         map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, { desc = "Blame Line" })
         map("n", "<leader>gd", gs.diffthis, { desc = "Diff File" })
+        map("n", "<leader>ub", gs.toggle_current_line_blame, { desc = "Toggle Line Blame" })
       end,
     },
   },

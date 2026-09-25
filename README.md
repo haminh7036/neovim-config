@@ -226,3 +226,4 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 | :--- | :--- | :--- |
 | `Space + uh` | Bật / tắt gợi ý kiểu dữ liệu (Inlay Hints) | Normal |
 | `Space + ud` | Bật / tắt thông báo lỗi inline (Inline Diagnostics) | Normal |
+| `Space + ub` | Bật / tắt Git blame dạng virtual text theo dòng | Normal |
