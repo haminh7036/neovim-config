@@ -100,21 +100,21 @@ return {
 
       -- Phím tắt LSP toàn cục
       vim.keymap.set("n", "gd", function()
-        require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
+        require("fzf-lua").lsp_definitions({ jump1 = true })
       end, { desc = "Go to Definition" })
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
       vim.keymap.set("n", "gi", function()
-        require("fzf-lua").lsp_implementations({ jump_to_single_result = true })
+        require("fzf-lua").lsp_implementations({ jump1 = true })
       end, { desc = "Go to Implementation" })
       vim.keymap.set("n", "gr", function()
-        require("fzf-lua").lsp_references({ jump_to_single_result = true, ignore_current_line = true })
+        require("fzf-lua").lsp_references({ jump1 = true, ignore_current_line = true })
       end, { desc = "References" })
       vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = border }) end, { desc = "Hover Documentation" })
       vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
       vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Prev Diagnostic" })
+      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
     end,
   }
 }
