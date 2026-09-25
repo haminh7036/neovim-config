@@ -29,40 +29,6 @@ return {
           end
         end,
       })
-
-      -- Tự động khôi phục session khi mở lại Neovim (không truyền file cụ thể)
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = vim.api.nvim_create_augroup("persistence_auto_restore", { clear = true }),
-        callback = function()
-          -- Bỏ qua nếu đọc từ stdin/pipe hoặc đang chạy diff mode
-          if (vim.uv or vim.loop).guess_handle(0) == "pipe" or vim.g.started_with_stdin or vim.opt.diff:get() then
-            return
-          end
-
-          local argc = vim.fn.argc()
-          -- Khôi phục session nếu mở nvim không tham số hoặc chỉ mở thư mục
-          if argc == 0 or (argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1) then
-            -- Nếu Lazy đang mở popup cài plugin thiếu (race với VimEnter), đợi popup
-            -- đóng rồi mới khôi phục, tránh session dựng layout window đè lên popup
-            -- khiến buffer bị kẹt trong vùng popup sau khi đóng.
-            local function restore_when_lazy_closed()
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "lazy" then
-                  vim.api.nvim_create_autocmd("WinClosed", {
-                    once = true,
-                    callback = function()
-                      vim.schedule(restore_when_lazy_closed)
-                    end,
-                  })
-                  return
-                end
-              end
-              require("persistence").load()
-            end
-            vim.schedule(restore_when_lazy_closed)
-          end
-        end,
-      })
     end,
     -- Phím tắt để khôi phục/quản lý session
     keys = {

@@ -86,6 +86,9 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - **`conform.nvim`**: Format khi lưu file, Go dùng `goimports` (tự fix import) + `gofumpt` (format chặt hơn `gofmt` chuẩn).
    - Toàn bộ binary (`dlv`, `golangci-lint`, `goimports`, `gofumpt`, `gopls`) đều quản lý tập trung qua `mason.nvim` — không cần `go install` thủ công.
 
+6. **Dashboard**:
+   - `snacks.nvim`: Chỉ bật module `dashboard`, hiển thị màn hình chào khi mở Neovim ở thư mục (không chỉ định file).
+
 ---
 
 ## Bảng phím tắt (Keymaps Guide)
