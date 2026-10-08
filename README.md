@@ -10,10 +10,24 @@ Cấu hình Neovim cá nhân, dùng Native LSP API và Go tooling:
 
 ## Yêu cầu hệ thống (Prerequisites)
 
-* **Neovim >= 0.11.0** (khuyến nghị **v0.12+**).
-* **Git** & **ripgrep (`rg`)**: Phục vụ tìm kiếm file và nội dung.
-* **Fcitx5** & **fcitx5-remote**: Quản lý trạng thái bộ gõ tiếng Việt (Linux).
-* **LazyGit** *(tùy chọn)*: Giao diện Git TUI.
+| Package | Bắt buộc | Dùng cho |
+| :--- | :--- | :--- |
+| [Neovim](https://github.com/neovim/neovim) >= 0.11 (khuyến nghị 0.12+) | Có | Native LSP API (`vim.lsp.config`, `vim.lsp.enable`) |
+| [Git](https://github.com/git/git) | Có | Bootstrap `lazy.nvim`, tải plugin, `gitsigns`, `diffview` |
+| [ripgrep (`rg`)](https://github.com/BurntSushi/ripgrep) | Có | Live grep của `fzf-lua`, backend tìm kiếm của `grug-far` |
+| [fzf](https://github.com/junegunn/fzf) | Có | Binary fuzzy finder mà `fzf-lua` gọi tới |
+| [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter) + C compiler (`gcc`/`clang`) | Có | `nvim-treesitter` (nhánh `main`) biên dịch parser khi cài |
+| `curl`, `tar`, `unzip`, `gzip` | Có | Mason tải LSP/tool; `blink.cmp` tải binary Rust dựng sẵn |
+| [Go](https://github.com/golang/go) | Có (cho Go tooling) | Mason cài `gopls`, `delve`, `goimports`, `gofumpt` qua `go install` |
+| [Node.js](https://github.com/nodejs/node) + npm | Có (cho JSON/YAML LSP) | Mason cài `jsonls`, `yamlls` qua npm |
+| [Nerd Font](https://github.com/ryanoasis/nerd-fonts) | Có | Icon của `nvim-web-devicons`, `blink.cmp`, statusline, bufferline |
+| [fd](https://github.com/sharkdp/fd) | Không | `fzf-lua` ưu tiên `fd` để liệt kê file; không có thì dùng `rg` |
+| [Fcitx5](https://github.com/fcitx/fcitx5) (`fcitx5-remote`) | Không | Tự chuyển bộ gõ khi thoát Insert mode (Linux); không có thì module bỏ qua |
+| [LazyGit](https://github.com/jesseduffield/lazygit) | Không | `<leader>gg` |
+| [ImageMagick](https://github.com/ImageMagick/ImageMagick) + terminal hỗ trợ Kitty graphics protocol ([Kitty](https://github.com/kovidgoyal/kitty), [WezTerm](https://github.com/wez/wezterm), [Ghostty](https://github.com/ghostty-org/ghostty)) | Không | `image.nvim` hiển thị ảnh trong Markdown |
+| Clipboard provider: [win32yank](https://github.com/equalsraf/win32yank) (WSL), [wl-clipboard](https://github.com/bugaevc/wl-clipboard) (Wayland) hoặc [xclip](https://github.com/astrand/xclip) (X11) | Không | `clipboard = "unnamedplus"` dùng chung clipboard với hệ thống |
+
+Kiểm tra sau khi cài: `:checkhealth`.
 
 ---
 
