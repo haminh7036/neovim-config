@@ -34,7 +34,7 @@ return {
               function()
                 require("bufferline").go_to(i, true)
               end,
-              desc = item.name or ("Buffer " .. i),
+              desc = item.path and vim.fn.fnamemodify(item.path, ":~:.") or item.name or ("Buffer " .. i),
               icon = { cat = "file", name = item.name },
             })
           end
@@ -47,12 +47,13 @@ return {
           if i <= 9 then
             local name = vim.api.nvim_buf_get_name(buf)
             local filename = name ~= "" and vim.fn.fnamemodify(name, ":t") or "[No Name]"
+            local relpath = name ~= "" and vim.fn.fnamemodify(name, ":~:.") or filename
             table.insert(ret, {
               tostring(i),
               function()
                 vim.api.nvim_set_current_buf(buf)
               end,
-              desc = filename,
+              desc = relpath,
               icon = { cat = "file", name = filename },
             })
           end

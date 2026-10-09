@@ -10,6 +10,10 @@ return {
         component_separators = { left = "│", right = "│" },
         section_separators = { left = "", right = "" },
       },
+      sections = {
+        -- path = 1: hiện đường dẫn tương đối để phân biệt các file trùng tên (api/movies.go, data/movies.go)
+        lualine_c = { { "filename", path = 1 } },
+      },
     },
   },
   -- Bufferline (tab cho các buffer)
