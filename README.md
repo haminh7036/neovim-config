@@ -61,7 +61,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
     ├── config/
     │   ├── autocmds.lua # Tự động reload file, highlight yank, auto-save...
     │   ├── fcitx5.lua   # Điều khiển Fcitx5 qua Libuv
-    │   ├── keymaps.lua  # Phím tắt chung, terminal, điều hướng cửa sổ
+    │   ├── keymaps.lua  # Phím tắt chung, điều hướng cửa sổ
     │   ├── lazy.lua     # Khởi tạo và thiết lập lazy.nvim
     │   ├── options.lua  # Thiết lập Vim options (tab, indent, line number...)
     │   └── root.lua     # Tự động nhận diện thư mục gốc dự án
@@ -104,7 +104,7 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
    - Toàn bộ binary (`dlv`, `golangci-lint`, `goimports`, `gofumpt`, `gopls`) đều quản lý tập trung qua `mason.nvim` — không cần `go install` thủ công.
 
 6. **Dashboard**:
-   - `snacks.nvim`: Chỉ bật module `dashboard`, hiển thị màn hình chào khi mở Neovim ở thư mục (không chỉ định file).
+   - `snacks.nvim`: Bật module `dashboard` (màn hình chào khi mở Neovim ở thư mục, không chỉ định file); dùng `Snacks.lazygit` (`<leader>gg`, bấm `e` trong lazygit mở file ở Neovim hiện tại, theme lazygit theo colorscheme) và `Snacks.terminal` (floating terminal, tự co giãn khi resize).
 
 ---
 
