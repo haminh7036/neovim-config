@@ -197,6 +197,9 @@ nvim --headless -c "MasonInstall gopls delve golangci-lint goimports gofumpt" -c
 | `Space + gr` | Revert (Reset) Git Hunk tại vị trí con trỏ | Normal |
 | `Space + gD` | Mở Diffview toàn bộ dự án | Normal |
 | `Space + gh` | Xem lịch sử commit của file (`DiffviewFileHistory`) | Normal |
+| `]x` / `[x` | Di chuyển đến conflict kế tiếp / trước đó (chỉ trong file có conflict) | Normal |
+| `co` / `ct` | Giữ phần ours (HEAD) / theirs (incoming) của conflict tại con trỏ | Normal, Visual |
+| `cb` / `c0` | Giữ cả hai phần / bỏ cả hai phần của conflict tại con trỏ | Normal, Visual |
 | `Space + qs` | Khôi phục session của thư mục hiện tại | Normal |
 | `Space + ql` | Khôi phục session gần nhất | Normal |
 | `Space + qd` | Đóng phiên làm việc mà không lưu session | Normal |

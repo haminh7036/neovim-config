@@ -52,12 +52,25 @@ return {
     opts = {
       default_mappings = true,
       default_commands = true,
-      disable_diagnostics = true,
+      -- Plugin gọi vim.diagnostic.disable() đã bị xóa ở Neovim 0.12 → lỗi mỗi lần redraw.
+      -- Tắt option này, tự ẩn diagnostics qua User autocmd trong config bên dưới.
+      disable_diagnostics = false,
       highlights = {
         incoming = "DiffAdd",
         current = "DiffText",
       },
     },
+    config = function(_, opts)
+      require("git-conflict").setup(opts)
+      local group = vim.api.nvim_create_augroup("GitConflictDiagnostics", { clear = true })
+      for event, enabled in pairs({ GitConflictDetected = false, GitConflictResolved = true }) do
+        vim.api.nvim_create_autocmd("User", {
+          group = group,
+          pattern = event,
+          callback = function() vim.diagnostic.enable(enabled, { bufnr = vim.api.nvim_get_current_buf() }) end,
+        })
+      end
+    end,
   },
 
   -- Xem Git Diff & 3-Way Merge dạng Side-by-Side
